@@ -1,0 +1,142 @@
+// Adapted/Modified from HeidelTime
+// This file contains rules for the temporal expressions of the type set: setrules
+// RULENAME="",EXTRACTION="",NORM_VALUE=""(,OFFSET="")?(,POS_CONSTRAINT="")?(,NORM_MOD="")?(,NORM_QUANT="")?(,NORM_FREQ="")?
+
+////////////////
+// EVERY UNIT //
+////////////////
+// set_r1
+// EXAMPLE r1a-1: each day (val=RP1D)
+// EXAMPLE r1b-1: every Monday (val=RP1W)
+// EXAMPLE r1c-1: each September (val=RP0.083Y ?)
+// EXAMPLE r1d-1: every summer (val=RP0.25Y ? mod=APPROX?)
+RULENAME="set_r1a",EXTRACTION="([Ee]very|[Ee]ach) %reUnit",NORM_VALUE="RP1%UPPERCASE%(%SUBSTRING%(%normUnit(group(2)),0,1))",NORM_QUANT="%UPPERCASE%(group(1))"
+RULENAME="set_r1a1",EXTRACTION="([Ee]very|[Ee]ach) %reUnitTime",NORM_VALUE="RPT1%UPPERCASE%(%SUBSTRING%(%normUnit(group(2)),0,1))",NORM_QUANT="%UPPERCASE%(group(1))"
+RULENAME="set_r1b",EXTRACTION="([Ee]very|[Ee]ach) %reWeekday",NORM_VALUE="RP1W",NORM_QUANT="%UPPERCASE%(group(1))",NORM_FREQ="1W"
+RULENAME="set_r1c",EXTRACTION="([Ee]very|[Ee]ach) (%reMonthLong|%reMonthShort)",NORM_VALUE="RP0.083Y",NORM_QUANT="%UPPERCASE%(group(1))"
+RULENAME="set_r1d",EXTRACTION="([Ee]very|[Ee]ach) %reSeason",NORM_VALUE="RP0.25Y",NORM_MOD="APPROX",NORM_QUANT="%UPPERCASE%(group(1))",NORM_FREQ="1S"
+
+// set_r2
+// EXAMPLE r2a-1: once a week (val=RP1W)
+// EXAMPLE r2b-1: twice a month (val=P1M, freq=2 -> val=RP0.5M)
+// EXAMPLE r2c-1: three times a month (val=P1M, freq=3 -> val=RP0.33M)
+// EXAMPLE r2d-1: 40 times per month (val=P1M, freq=40 -> val=RP0.025M)
+// EXAMPLE r2e-1: a month (val=RP1M)
+// EXAMPLE r2f-1: a minute (val=RPT1M)
+RULENAME="set_r2a",EXTRACTION="[Oo]nce (a|per) %reUnit",NORM_VALUE="RP1%UPPERCASE%(%SUBSTRING%(%normUnit(group(2)),0,1))",NORM_FREQ="1"
+RULENAME="set_r2a1",EXTRACTION="[Oo]nce (a|per) %reUnitTime",NORM_VALUE="RPT1%UPPERCASE%(%SUBSTRING%(%normUnit(group(2)),0,1))",NORM_FREQ="1"
+RULENAME="set_r2b",EXTRACTION="[Tt]wice (a|per) %reUnit",NORM_VALUE="NORMFVAL-DATE-P1%UPPERCASE%(%SUBSTRING%(%normUnit(group(2)),0,1))",NORM_FREQ="2"
+RULENAME="set_r2b1",EXTRACTION="[Tt]wice (a|per) %reUnitTime",NORM_VALUE="NORMFVAL-TIME-PT1%UPPERCASE%(%SUBSTRING%(%normUnit(group(2)),0,1))",NORM_FREQ="2"
+RULENAME="set_r2c",EXTRACTION="(%reNumWord1D|%reNumWord2D) (times?|episodes?|x|X) (a|per|every) %reUnit",NORM_VALUE="NORMFVAL-DATE-P1%UPPERCASE%(%SUBSTRING%(%normUnit(group(6)),0,1))",NORM_FREQ="%normDurationNumber(group(1))"
+RULENAME="set_r2c1",EXTRACTION="(%reNumWord1D|%reNumWord2D) (times?|episodes?|x|X) (a|per|every) %reUnitTime",NORM_VALUE="NORMFVAL-TIME-PT1%UPPERCASE%(%SUBSTRING%(%normUnit(group(6)),0,1))",NORM_FREQ="%normDurationNumber(group(1))"
+RULENAME="set_r2d",EXTRACTION="([\d]+) (times?|episodes?|x|X) (a|per|every) %reUnit",NORM_VALUE="NORMFVAL-DATE-P1%UPPERCASE%(%SUBSTRING%(%normUnit(group(4)),0,1))",NORM_FREQ="group(1)"
+RULENAME="set_r2d1",EXTRACTION="([\d]+) (times?|episodes?|x|X) (a|per|every) %reUnitTime",NORM_VALUE="NORMFVAL-TIME-PT1%UPPERCASE%(%SUBSTRING%(%normUnit(group(4)),0,1))",NORM_FREQ="group(1)"
+RULENAME="set_r2e",EXTRACTION="(a|an|one)( |-)%reUnit",NORM_VALUE="RP1%normUnit4Duration(group(3))",NORM_FREQ="1"
+RULENAME="set_r2e1",EXTRACTION="(a|an|one)( |-)%reUnitTime",NORM_VALUE="RPT1%normUnit4Duration(group(3))",NORM_FREQ="1"
+RULENAME="set_r2f",EXTRACTION="(a|an|one)( |-)(minutes?|hours?)",NORM_VALUE="RPT1%normUnit4Duration(group(3))",NORM_FREQ="1"
+
+RULENAME="set_r2g",EXTRACTION="[Oo]nce %reUnit2",NORM_VALUE="RP1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(1)),0,1))",NORM_FREQ="1"
+RULENAME="set_r2g1",EXTRACTION="[Oo]nce %reUnit2Time",NORM_VALUE="RPT1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(1)),0,1))",NORM_FREQ="1"
+RULENAME="set_r2h",EXTRACTION="[Tt]wice %reUnit2",NORM_VALUE="NORMFVAL-DATE-P1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(1)),0,1))",NORM_FREQ="2"
+RULENAME="set_r2h1",EXTRACTION="[Tt]wice %reUnit2Time",NORM_VALUE="NORMFVAL-TIME-PT1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(1)),0,1))",NORM_FREQ="2"
+RULENAME="set_r2i",EXTRACTION="(%reNumWord1D|%reNumWord2D) (times?|episodes?|x|X) %reUnit2",NORM_VALUE="NORMFVAL-DATE-P1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(5)),0,1))",NORM_FREQ="%normDurationNumber(group(1))"
+RULENAME="set_r2i1",EXTRACTION="(%reNumWord1D|%reNumWord2D) (times?|episodes?|x|X) %reUnit2Time",NORM_VALUE="NORMFVAL-TIME-PT1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(5)),0,1))",NORM_FREQ="%normDurationNumber(group(1))"
+RULENAME="set_r2j",EXTRACTION="([\d]+) (times?|episodes?|x|X) %reUnit2",NORM_VALUE="NORMFVAL-DATE-P1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(3)),0,1))",NORM_FREQ="group(1)"
+RULENAME="set_r2j1",EXTRACTION="([\d]+) (times?|episodes?|x|X) %reUnit2Time",NORM_VALUE="NORMFVAL-TIME-PT1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(3)),0,1))",NORM_FREQ="group(1)"
+RULENAME="set_r2k",EXTRACTION="%reUnit2",NORM_VALUE="RP1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(1)),0,1))",NORM_FREQ="1"
+RULENAME="set_r2k1",EXTRACTION="%reUnit2Time",NORM_VALUE="RPT1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(1)),0,1))",NORM_FREQ="1"
+
+RULENAME="set_r2l",EXTRACTION="(many|multiple|several) (times?|episodes?|x|X) (a|per|every) %reUnit",NORM_VALUE="NORMFVAL-DATE-P1%UPPERCASE%(%SUBSTRING%(%normUnit(group(4)),0,1))",NORM_FREQ="3",NORM_MOD="APPROX"
+RULENAME="set_r2l1",EXTRACTION="(many|multiple|several) (times?|episodes?|x|X) (a|per|every) %reUnitTime",NORM_VALUE="NORMFVAL-TIME-PT1%UPPERCASE%(%SUBSTRING%(%normUnit(group(4)),0,1))",NORM_FREQ="3",NORM_MOD="APPROX"
+RULENAME="set_r2m",EXTRACTION="(many|multiple|several) (times?|episodes?|x|X) %reUnit2",NORM_VALUE="NORMFVAL-DATE-P1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(3)),0,1))",NORM_FREQ="3",NORM_MOD="APPROX"
+RULENAME="set_r2m1",EXTRACTION="(many|multiple|several) (times?|episodes?|x|X) %reUnit2Time",NORM_VALUE="NORMFVAL-TIME-PT1%UPPERCASE%(%SUBSTRING%(%normUnit2(group(3)),0,1))",NORM_FREQ="3",NORM_MOD="APPROX"
+
+// set_r3
+// EXAMPLE r3a-1: every 5 years (val=RP5Y)
+// EXAMPLE r3b-1: every two days (val=RP2D)
+RULENAME="set_r3a",EXTRACTION="([Ee]very) ([\d]+) %reUnit",NORM_VALUE="RPgroup(2)%UPPERCASE%(%SUBSTRING%(%normUnit(group(3)),0,1))",NORM_QUANT="%UPPERCASE%(group(1))"
+RULENAME="set_r3a1",EXTRACTION="([Ee]very) ([\d]+) %reUnitTime",NORM_VALUE="RPTgroup(2)%UPPERCASE%(%SUBSTRING%(%normUnit(group(3)),0,1))",NORM_QUANT="%UPPERCASE%(group(1))"
+RULENAME="set_r3b",EXTRACTION="([Ee]very) (%reNumWord1D|%reNumWord2D) %reUnit",NORM_VALUE="RP%normDurationNumber(group(2))%UPPERCASE%(%SUBSTRING%(%normUnit(group(5)),0,1))",NORM_QUANT="%UPPERCASE%(group(1))"
+RULENAME="set_r3b1",EXTRACTION="([Ee]very) (%reNumWord1D|%reNumWord2D) %reUnitTime",NORM_VALUE="RPT%normDurationNumber(group(2))%UPPERCASE%(%SUBSTRING%(%normUnit(group(5)),0,1))",NORM_QUANT="%UPPERCASE%(group(1))"
+
+// set_r4
+// EXAMPLE r4a-1: 2 days each week (val=P1W freq=2-> val=RP0.5W) assume the 1st unit is one-level lower than the 2nd
+RULENAME="set_r4a",EXTRACTION="([\d]+) %reUnit (a|an|each|per|every) %reUnit",NORM_VALUE="NORMFVAL-DATE-P1%UPPERCASE%(%SUBSTRING%(%normUnit(group(4)),0,1))",NORM_QUANT="EACH",NORM_FREQ="group(1)"
+RULENAME="set_r4a1",EXTRACTION="([\d]+) %reUnitTime (a|an|each|per|every) %reUnitTime",NORM_VALUE="NORMFVAL-TIME-PT1%UPPERCASE%(%SUBSTRING%(%normUnit(group(4)),0,1))",NORM_QUANT="EACH",NORM_FREQ="group(1)"
+
+// set_r5 
+// EXAMPLE r5a-1: annually
+RULENAME="set_r5a",EXTRACTION="%reSetWords2",NORM_VALUE="RP1%UPPERCASE%(%normSetWords2(group(1)))"
+
+//////////////////////////////
+// PART-OF-DAYS EXPRESSIONS //
+//////////////////////////////
+
+// set_r6
+// EXAMPLE r6a-1: on Monday 
+// EXAMPLE r6b-1: on Monday and Wednesday
+// EXAMPLE r6c-1: on Monday, Wednesday and Friday 
+RULENAME="set_r6a",EXTRACTION="[Oo]n %reWeekday",NORM_VALUE="R1W"
+RULENAME="set_r6b",EXTRACTION="[Oo]n %reWeekday (,|and) %reWeekday",NORM_VALUE="R0.5W"
+RULENAME="set_r6c",EXTRACTION="[Oo]n %reWeekday ?,? %reWeekday ?,? and %reWeekday",NORM_VALUE="R0.33W"
+
+// Latin abbreviation //
+// set_r7
+RULENAME="set_r7a",EXTRACTION="%reLatinAbbr",NORM_VALUE="RPT%normLatinAbbr(group(1))H"
+RULENAME="set_r7b",EXTRACTION="\b(prn|p\.r\.n\.|PRN|P\.R\.N\.|as needed)",NORM_VALUE="R"
+
+// set_r8
+//RULENAME="set_r8a",EXTRACTION="\b[Oo]nce\b",NORM_VALUE="R1"
+RULENAME="set_r8b",EXTRACTION="\b[Tt]wice\b",NORM_VALUE="R2"
+
+// set_r9
+// EXAMPLE r9a-1: x 1
+// EXAMPLE r9b-1: x 2 per day (val=P1D -> val=RP0.5D)
+// EXAMPLE r9c-1: times 3 doses (val=RPT8H)
+// EXAMPLE r9d-1: times three (val=R3)
+// EXAMPLE r9e-1: times 1 day (val=RP1D)
+RULENAME="set_r9a",EXTRACTION="\b[Xx]\s?(\d+)\b",NORM_VALUE="Rgroup(1)"
+//RULENAME="set_r9b",EXTRACTION="\b[Xx]\s?(\d+\-\d+) (a\per) \b",NORM_VALUE="NORMFVAL-DATE-Pgroup(1)"
+RULENAME="set_r9c",EXTRACTION="\btimes (\d+) doses?",NORM_VALUE="NORMFVAL-DOSE",NORM_FREQ="group(1)"
+RULENAME="set_r9d",EXTRACTION="\btimes (%reNumWord1D|%reNumWord2D)",NORM_VALUE="R%normDurationNumber(group(1))"
+RULENAME="set_r9e",EXTRACTION="\btimes (\d+) %reUnit",NORM_VALUE="RPgroup(1)%UPPERCASE%(%SUBSTRING%(%normUnit(group(2)),0,1))"
+
+// set_r10
+// EXAMPLE r10a-1: q6h; q. 1-hour
+// EXAMPLE r10b-1: q6
+// EXAMPLE r10c-1: q four h
+// EXAMPLE r10d-1: q four to six h
+// EXAMPLE r10e-1: q day
+RULENAME="set_r10a",EXTRACTION="\b(q\.|Q\.|q|Q)\s?(\d+)\-?\s?(hours?|Hours?|h\.|H\.|h|H)?",NORM_VALUE="RPTgroup(2)H"
+RULENAME="set_r10b",EXTRACTION="\b(q\.|Q\.|q|Q)\s?(\d+)",NORM_VALUE="RPTgroup(2)H"
+RULENAME="set_r10c",EXTRACTION="\b(q\.|Q\.|q|Q) %reNumWord1D (hours?|Hours?|h\.|H\.|h|H)",NORM_VALUE="RPT%normDurationNumber(group(2))H"
+RULENAME="set_r10d",EXTRACTION="\b(q\.|Q\.|q|Q)\s?(day|daily|h\.s\.|H\.S\.|hs|HS)",NORM_VALUE="RPT24H"
+
+//set_r11
+// EXAMPLE r11a: q 6-8h
+// EXAMPLE r11b: q 6-8
+// EXAMPLE r11c: q six to eight hours
+RULENAME="set_r11a",EXTRACTION="\b(q\.|Q\.|q|Q)\s?(\d+)\-(\d+)\-?\s?(hours?|Hours?|h\.|H\.|h|H)?",NORM_VALUE="NORMFVAL-HOURSUM-%SUM%(group(2),group(3))",NORM_FREQ="2",NORM_MOD="APPROX"
+RULENAME="set_r11b",EXTRACTION="\b(q\.|Q\.|q|Q)\s?(\d+)\-(\d+)",NORM_VALUE="NORMFVAL-HOURSUM-%SUM%(group(2),group(3))",NORM_FREQ="2",NORM_MOD="APPROX"
+RULENAME="set_r11c",EXTRACTION="\b(q\.|Q\.|q|Q) %reNumWord1D to %reNumWord1D (hours?|Hours?|h\.|H\.|h|H)",NORM_VALUE="NORMFVAL-HOURSUM-%SUM%(%normDurationNumber(group(2)),%normDurationNumber(group(3)))",NORM_FREQ="2",NORM_MOD="APPROX"
+
+// set_r12
+//ad hoc rules from training data 
+// EXAMPLE r12a: a regular basis
+// EXAMPLE r12b: ad lib
+// EXAMPLE r12c: many times
+RULENAME="set_r12a",EXTRACTION="a regular basis",NORM_VALUE="RP30D",NORM_MOD="APPROX"
+RULENAME="set_r12b",EXTRACTION="ad lib",NORM_VALUE="R"
+RULENAME="set_r12c",EXTRACTION="(many|multiple|several) (times|episodes)",NORM_VALUE="R3",NORM_MOD="APPROX"
+
+// set_r13
+//EXAMPLE r13a: 3 times?|episodes?|occasions?
+//EXAMPLE r13b: three times?|episodes?|occasions?
+RULENAME="set_r13a",EXTRACTION="(\d+) (times?|episodes?|occasions?)",NORM_VALUE="Rgroup(1)"
+RULENAME="set_r13a",EXTRACTION="(%reNumWord1D|%reNumWord2D) (times?|episodes?|occasions?)",NORM_VALUE="R%normDurationNumber(group(1))"
+
+// set_r14
+//EXAMPLE r14a: per day|week|month|year
+//EXAMPLE r14b: per second|minute|hour
+RULENAME="set_r14a",EXTRACTION="per %reUnit",NORM_VALUE="RP1%UPPERCASE%(%SUBSTRING%(%normUnit(group(1)),0,1))"
+//RULENAME="set_r14b",EXTRACTION="per %reUnitTime",NORM_VALUE="RPT1%UPPERCASE%(%SUBSTRING%(%normUnit(group(1)),0,1))"

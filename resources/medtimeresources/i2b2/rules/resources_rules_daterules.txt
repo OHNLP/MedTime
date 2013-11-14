@@ -1,0 +1,527 @@
+// Adapted/modified from HeidelTime
+// This file contains rules for the temporal expressions of the type date: daterules
+// RULENAME="",EXTRACTION="",NORM_VALUE=""(,OFFSET="")?(,POS_CONSTRAINT="")?(,NORM_MOD="")?(,NORM_QUANT="")?(,NORM_FREQ="")?
+
+// INFER-(day|adm|dis)-(PLUS|MINUS)-num: use local date if the previous date is within the same section, otherwise use admission or discharge date
+// 		INFER-day: if not using local date, use admission or dischage date based on section
+// 		INFER-adm: if not using local date, use admission date
+// 		INFER-dis: if not using local date, use discharge date
+
+
+////////////////////
+// POSITIVE RULES //
+////////////////////
+
+/////////////////////
+// Day Granularity //
+/////////////////////
+// date_r0 (Timestamp style)
+// EXAMPLE r0a_1: 2010-01-29
+// EXAMPLE r0b_1: 10-29-99
+// EXAMPLE r0c_1: 09/26/1999
+// EXAMPLE r0d_1: 09/26/99
+// EXAMPLE r0e_1: 7-14 (AP) (find 7-14)
+// EXAMPLE r0f_1: 19990909
+
+// EXAMPLE r0g_1: 09/1999 (mm/yyyy)
+// EXAMPLE r0g1_1: 09/99 (mm/yy)
+// EXAMPLE r0h_1: 09/06 (mm/dd) -> year should be inferred
+// EXAMPLE r0i_1: 09-1999 (mm-yyyy)
+// EXAMPLE r0i1_1: 09-99 (mm-yy)
+// EXAMPLE r0j_1: 09-06 (mm-dd) -> year should be inferred
+
+// EXAMPLE r0k_1: 2010/01/29
+// EXAMPLE r0l_1: 10/29/99
+// EXAMPLE r0m_1: 09-26-1999
+// EXAMPLE r0n_1: 09-26-99
+
+RULENAME="date_r0a",EXTRACTION="(%reYear4Digit-%reMonthNumber-%reDayNumber)",NORM_VALUE="group(2)-%normMonth(group(3))-%normDay(group(4))"
+RULENAME="date_r0b",EXTRACTION="(%reMonthNumber-%reDayNumber-%reYear2Digit)",NORM_VALUE="UNDEF-centurygroup(4)-%normMonth(group(2))-%normDay(group(3))"
+RULENAME="date_r0c",EXTRACTION="%reMonthNumber/%reDayNumber/%reYear4Digit",NORM_VALUE="group(3)-%normMonth(group(1))-%normDay(group(2))"
+RULENAME="date_r0d",EXTRACTION="%reMonthNumber/%reDayNumber/%reYear2Digit",NORM_VALUE="UNDEF-centurygroup(3)-%normMonth(group(1))-%normDay(group(2))"
+RULENAME="date_r0e",EXTRACTION="%reMonthNumber-%reDayNumber( \(.*?\))",NORM_VALUE="UNDEF-year-%normMonth(group(1))-%normDay(group(2))",OFFSET="group(1)-group(2)"
+// NEW for ACE Tern 2005 training
+RULENAME="date_r0f",EXTRACTION="%reYear4Digit%reMonthNumber%reDayNumber",NORM_VALUE="group(1)-%normMonth(group(2))-%normDay(group(3))"
+RULENAME="date_r0g",EXTRACTION="%reMonthNumber/%reYear4Digit",NORM_VALUE="group(2)-%normMonth(group(1))"
+RULENAME="date_r0g1",EXTRACTION="%reMonthNumber/%reYear2Digit",NORM_VALUE="UNDEF-centurygroup(2)-%normMonth(group(1))"
+RULENAME="date_r0h",EXTRACTION="%reMonthNumber/%reDayNumber",NORM_VALUE="UNDEF-year-%normMonth(group(1))-%normDay(group(2))"
+RULENAME="date_r0i",EXTRACTION="%reMonthNumber-%reYear4Digit",NORM_VALUE="group(2)-%normMonth(group(1))"
+//RULENAME="date_r0i1",EXTRACTION="%reMonthNumber-%reYear2Digit",NORM_VALUE="UNDEF-centurygroup(2)-%normMonth(group(1))"
+RULENAME="date_r0j",EXTRACTION="%reMonthNumber-%reDayNumber",NORM_VALUE="UNDEF-year-%normMonth(group(1))-%normDay(group(2))"
+RULENAME="date_r0k",EXTRACTION="(%reYear4Digit/%reMonthNumber/%reDayNumber)",NORM_VALUE="group(2)-%normMonth(group(3))-%normDay(group(4))"
+RULENAME="date_r0l",EXTRACTION="(%reMonthNumber/%reDayNumber/%reYear2Digit)",NORM_VALUE="UNDEF-centurygroup(4)-%normMonth(group(2))-%normDay(group(3))"
+RULENAME="date_r0m",EXTRACTION="%reMonthNumber-%reDayNumber-%reYear4Digit",NORM_VALUE="group(3)-%normMonth(group(1))-%normDay(group(2))"
+RULENAME="date_r0n",EXTRACTION="%reMonthNumber-%reDayNumber-%reYear2Digit",NORM_VALUE="UNDEF-centurygroup(3)-%normMonth(group(1))-%normDay(group(2))"
+
+// date_r1
+// EXAMPLE r1a_1: February 25, 2009
+// EXAMPLE r1a_2: Feb. 25, 2009
+// EXAMPLE r1a_3: Feb. 25, 2009, Monday
+// EXAMPLE r1b_1: 25 February 2009
+// EXAMPLE r1c_1: 25 of February 2009
+RULENAME="date_r1a",EXTRACTION="(%reMonthLong|%reMonthShort) (%reDayNumberTh|%reDayNumber)[\s]?,? %reYear4Digit(, %reWeekday)?",NORM_VALUE="group(7)-%normMonth(group(1))-%normDay(group(4))"
+RULENAME="date_r1b",EXTRACTION="%reDayNumber (%reMonthLong|%reMonthShort)([\s]?,)? %reYear4Digit",NORM_VALUE="group(6)-%normMonth(group(2))-%normDay(group(1))"
+RULENAME="date_r1c",EXTRACTION="(%reDayWordTh|%reDayNumberTh|%reDayNumber) (of) (%reMonthLong|%reMonthShort) %reYear4Digit",NORM_VALUE="group(9)-%normMonth(group(6))-%normDay(group(1))"
+
+// date_r2
+// EXAMPLE r2a_1: November 19
+// EXAMPLE r2a_2: Nov 19
+// EXAMPLE r2a_3: January 19th
+// EXAMPLE r2a_4: January nineteenth
+// EXAMPLE r2b_1: November 19-20 (find November 20)
+// EXAMPLE r2c_1: 19 November
+// EXAMPLE r2c_2: 19 Nov
+// EXAMPLE r2c_3: 19th of November
+RULENAME="date_r2a",EXTRACTION="(%reMonthLong|%reMonthShort) (%reDayWordTh|%reDayNumberTh|%reDayNumber)",NORM_VALUE="UNDEF-year-%normMonth(group(1))-%normDay(group(4))"
+RULENAME="date_r2b",EXTRACTION="(%reMonthLong|%reMonthShort) (%reDayWordTh|%reDayNumberTh|%reDayNumber)(\–| - | – |-|–| and | or )(%reDayWordTh|%reDayNumberTh|%reDayNumber)",NORM_VALUE="UNDEF-year-%normMonth(group(1))-%normDay(group(9))",OFFSET="group(9)-group(9)"
+RULENAME="date_r2c",EXTRACTION="(%reDayWordTh|%reDayNumberTh|%reDayNumber)( of | )(%reMonthLong|%reMonthShort)",NORM_VALUE="UNDEF-year-%normMonth(group(6))-%normDay(group(1))"
+
+// date_r3
+// EXAMPLE r3a_1: Friday October 13
+// EXAMPLE r3a_2: Monday, Oct 12
+// EXAMPLE r3b_1: Friday October 13 2009
+// EXAMPLE r3b_2: Monday, October 12th 2009
+RULENAME="date_r3a",EXTRACTION="%reWeekday[,]? (%reMonthLong|%reMonthShort) (%reDayWordTh|%reDayNumberTh|%reDayNumber)",NORM_VALUE="UNDEF-year-%normMonth(group(2))-%normDay(group(5))"
+RULENAME="date_r3b",EXTRACTION="%reWeekday[,]? (%reMonthLong|%reMonthShort) (%reDayWordTh|%reDayNumberTh|%reDayNumber)[,]? %reYear4Digit",NORM_VALUE="group(9)-%normMonth(group(2))-%normDay(group(5))"
+
+// date_r4
+// EXAMPLE r4a_1: September 14 and 18, 2010 (find September 14 2010)
+// EXAMPLE r4b_1: September 14 and 18, 2010 (find September 18 2010)
+RULENAME="date_r4a",EXTRACTION="(%reMonthLong|%reMonthShort) (%reDayNumberTh|%reDayNumber)(\–| - | – |-|–| and | or )(%reDayNumberTh|%reDayNumber)[,]? %reYear4Digit",NORM_VALUE="group(11)-%normMonth(group(1))-%normDay(group(4))",OFFSET="group(0)-group(4)"
+RULENAME="date_r4b",EXTRACTION="(%reMonthLong|%reMonthShort) (%reDayNumberTh|%reDayNumber)(\–| - | – |-|–| and | or )(%reDayNumberTh|%reDayNumber)[,]? %reYear4Digit",NORM_VALUE="group(11)-%normMonth(group(1))-%normDay(group(8))",OFFSET="group(8)-group(11)"
+
+// date_r5
+// EXAMPLE r5a_1: tomorrow
+// EXAMPLE r5b_1: earlier yesterday
+// EXAMPLE r5c_1: Monday
+// EXAMPLE r5d_1: earlier Monday 
+RULENAME="date_r5a",EXTRACTION="%reDateWord",NORM_VALUE="%normDateWord(group(1))"
+RULENAME="date_r5b",EXTRACTION="%rePartWords %reDateWord",NORM_VALUE="%normDateWord(group(2))",NORM_MOD="%normPartWords(group(1))"
+RULENAME="date_r5c",EXTRACTION="%reWeekday",NORM_VALUE="UNDEF-day-%normWeekday(group(1))"
+RULENAME="date_r5d",EXTRACTION="%rePartWords %reWeekday",NORM_VALUE="UNDEF-day-%normWeekday(group(2))",NORM_MOD="%normPartWords(group(1))",,NORM_MOD="APPROX"
+
+//////////////////////
+// WEEK GRANULARITY //
+//////////////////////
+// date_r6
+// EXAMPLE r6a_1: the weekend
+RULENAME="date_r61",EXTRACTION="(the|that) weekend",NORM_VALUE="UNDEF-last-week-WE"
+
+///////////////////////
+// MONTH GRANULARITY //
+///////////////////////
+//date_r7
+// EXAMPLE r7a_1: November 2001
+// EXAMPLE r7a_2: Nov. 2001
+// EXAMPLE r7a_3: February of 1999
+// EXAMPLE r7b_1: May and June 2011 (find May 2001)
+RULENAME="date_r7a",EXTRACTION="(%reMonthLong|%reMonthShort)( of | )%reYear4Digit",NORM_VALUE="group(5)-%normMonth(group(1))"
+RULENAME="date_r7b",EXTRACTION="(%reMonthLong|%reMonthShort) (and|or|to|until) (%reMonthLong|%reMonthShort) %reYear4Digit",NORM_VALUE="group(8)-%normMonth(group(1))",OFFSET="group(1)-group(1)"
+
+// date_r8
+// EXAMPLE r8a_1: November next year
+// EXAMPLE r8a_2: May last year
+RULENAME="date_r8a",EXTRACTION="%reMonthLong (the )?%reThisNextLast year",NORM_VALUE="UNDEF-%normThisNextLast(group(3))-year-%normMonth(group(1))"
+
+////////////////////////
+// SEASON GRANULARITY //
+////////////////////////
+// date_r9
+// EXAMPLE r9a_1: summer
+// EXAMPLE r9b_1: winter 2001
+// EXAMPLE r9b_1: winter of 2001
+// EXAMPLE r9c_1: summer of 69
+RULENAME="date_r9a",EXTRACTION="%reSeason",NORM_VALUE="UNDEF-year"
+RULENAME="date_r9b",EXTRACTION="%reSeason( of | )%reYear4Digit",NORM_VALUE="group(3)"
+RULENAME="date_r9c",EXTRACTION="%reSeason( of | )%reYear2Digit",NORM_VALUE="UNDEF-centurygroup(3)"
+
+//////////////////////////////
+// PART-OF-YEAR GRANULARITY //
+//////////////////////////////
+// date_r10
+// EXAMPLE r10a_1: the third quarter of 2001
+// EXAMPLE r10b_1: the second half
+// EXAMPLE r10c_1: the 2001 third quarter
+//RULENAME="date_r10a",EXTRACTION="([Tt]he )?%rePartOfYear( of | )%reYear4Digit",NORM_VALUE="group(4)-%normPartOfYear(group(2))"
+//RULENAME="date_r10b",EXTRACTION="([Tt]he )?%rePartOfYear",NORM_VALUE="UNDEF-year-%normPartOfYear(group(2))"
+//RULENAME="date_r10c",EXTRACTION="([Tt]he )?%reYear4Digit %rePartOfYear",NORM_VALUE="group(2)-%normPartOfYear(group(3))"
+
+// date_r11
+// EXAMPLE r11a_1: this year's third quarter
+// EXAMPLE r11a_2: next year's first quarter
+// EXAMPLE r11b_1: the year-earlier first half
+//RULENAME="date_r11a",EXTRACTION="%reThisNextLast year's %rePartOfYear",NORM_VALUE="UNDEF-%normThisNextLast(group(1))-year-%normPartOfYear(group(2))"
+//RULENAME="date_r11b",EXTRACTION="[Tt]he (year-earlier|year-ago) %rePartOfYear",NORM_VALUE="UNDEF-last-year-%normPartOfYear(group(2))"
+
+
+//////////////////////
+// YEAR GRANULARITY //
+//////////////////////
+// date_r12
+// EXAMPLE r12a_1: 2009
+// EXAMPLE r12b_1: 1850-58 (find: 1858)
+// EXAMPLE r12c_1: nineteen ninety-one
+// EXAMPLE r12d_1: two-thousand ten
+RULENAME="date_r12a",EXTRACTION="(the year )?(19\d\d|20\d\d)",NORM_VALUE="group(2)"
+RULENAME="date_r12b",EXTRACTION="%reYear4Digit(-|–| and )%reYear2Digit",NORM_VALUE="%SUBSTRING%(group(1),0,2)group(3)",OFFSET="group(3)-group(3)"
+RULENAME="date_r12c",EXTRACTION="%reNumWordTeen( |-)%reNumWord2D",NORM_VALUE="%normDurationNumber(group(1))%normDurationNumber(group(3))"
+RULENAME="date_r12d",EXTRACTION="two( |-)thousand( and)? (%reNumWord2D|%reNumWord1D)",NORM_VALUE="20%normDurationNumber(group(3))"
+
+////////////////////////
+// DECADE GRANULARITY //
+////////////////////////
+// date_r13
+// EXAMPLE r13a_1: the 1990s 
+// EXAMPLE r13b_1: the 90s
+// EXAMPLE r13c_1: the seventies
+// EXAMPLE r13d_1: the nineteen seventies
+//i2b2
+//RULENAME="date_r13a",EXTRACTION="([Tt]he )?(\d\d\d0)[']?[s]",NORM_VALUE="group(2)",NORM_MOD="APPROX"
+//RULENAME="date_r13b",EXTRACTION="([Tt]he )?[']?%reYear2Digit[']?[s]",NORM_VALUE="19group(2)",NORM_MOD="APPROX"
+//RULENAME="date_r13c",EXTRACTION="([Tt]he )?%reDecadeWord",NORM_VALUE="19%normDecadeWord2(group(2))",NORM_MOD="APPROX"
+//RULENAME="date_r13d",EXTRACTION="([Tt]he )?%reNumWordTeen %reDecadeWord",NORM_VALUE="%normDurationNumber(group(2))%normDecadeWord2(group(3))",NORM_MOD="APPROX"
+
+// date_r14
+// EXAMPLE r14a_1: the early 1990s 
+// EXAMPLE r14b_1: the mid-90s
+// EXAMPLE r14c_1: the late seventies
+// EXAMPLE r14d_1: the early nineteen seventies
+//i2b2
+RULENAME="date_r14a",EXTRACTION="([Tt]he )?%rePartWords[\s]?(\d\d\d0)[']?[s]",NORM_VALUE="group(3)",NORM_MOD="%normPartWords(group(2))"
+RULENAME="date_r14b",EXTRACTION="([Tt]he )?%rePartWords[\s]?[']?%reYear2Digit[']?[s]",NORM_VALUE="19group(3)",NORM_MOD="%normPartWords(group(2))"
+RULENAME="date_r14c",EXTRACTION="([Tt]he )?%rePartWords[\s]?%reDecadeWord",NORM_VALUE="19%normDecadeWord2(group(3))",NORM_MOD="%normPartWords(group(2))"
+RULENAME="date_r14d",EXTRACTION="([Tt]he )?%rePartWords[\s]?%reNumWordTeen %reDecadeWord",NORM_VALUE="%normDurationNumber(group(3))%normDecadeWord2(group(4))",NORM_MOD="%normPartWords(group(2))"
+
+/////////////////////////
+// CENTURY GRANULARITY //
+/////////////////////////
+// date_r15
+// EXAMPLE r15a_1: the 19th century
+// EXAMPLE r15a_2: the seventh century
+//i2b2
+RULENAME="date_r15a",EXTRACTION="([Tt]he )?(%reDayNumberTh|%reDayWordTh) century",NORM_VALUE="%normDay(%SUM%(%normDay(group(2)),-1))00",NORM_MOD="APPROX"
+
+///////////////////////////////////
+// GRANULARITY INDEPENDENT RULES //
+///////////////////////////////////
+// date_r16
+// EXAMPLE r16a_1: March
+// EXAMPLE r16b_1: Early 2001
+// EXAMPLE r16c_1: the beginning of November 1999
+// EXAMPLE r16d_1: the middle of September
+RULENAME="date_r16a",EXTRACTION="(%reMonthLong|%reMonthShort)",NORM_VALUE="UNDEF-year-%normMonth(group(1))"
+RULENAME="date_r16b",EXTRACTION="%rePartWords([ ]?)%reYear4Digit",NORM_VALUE="group(3)",NORM_MOD="%normPartWords(group(1))"
+RULENAME="date_r16c",EXTRACTION="%rePartWords([ ]?)(%reMonthLong|%reMonthShort) %reYear4Digit",NORM_VALUE="group(6)-%normMonth(group(3))",NORM_MOD="%normPartWords(group(1))"
+RULENAME="date_r16d",EXTRACTION="%rePartWords([ ]?)(%reMonthLong|%reMonthShort)",NORM_VALUE="UNDEF-year-%normMonth(group(3))",NORM_MOD="%normPartWords(group(1))"
+
+// date_r17
+// EXAMPLE r17a_1: this year
+// EXAMPLE r17b_1: this November
+// EXAMPLE r17c_1: this November 24
+// EXAMPLE r17d_1: this Monday
+// EXAMPLE r17e_1: this summer
+// EXAMPLE r17f_1: this day 
+// EXAMPLE r17g_1: the following day 
+RULENAME="date_r17a",EXTRACTION="([Tt]he )?%reThisNextLast %reUnit",NORM_VALUE="UNDEF-%normThisNextLast(group(2))-%normUnit(group(3))"
+RULENAME="date_r17b",EXTRACTION="([Tt]he )?%reThisNextLast %reMonthLong",NORM_VALUE="UNDEF-%normThisNextLast(group(2))-%LOWERCASE%(group(3))"
+RULENAME="date_r17c",EXTRACTION="([Tt]he )?%reThisNextLast %reMonthLong %reDayNumber",NORM_VALUE="UNDEF-%normThisNextLast(group(2))-%LOWERCASE%(group(3))-%normDay(group(4))"
+RULENAME="date_r17d",EXTRACTION="([Tt]he )?%reThisNextLast %reWeekday",NORM_VALUE="UNDEF-%normThisNextLast(group(2))-%LOWERCASE%(group(3))"
+RULENAME="date_r17e",EXTRACTION="([Tt]he )?%reThisNextLast %reSeason",NORM_VALUE="UNDEF-year",NORM_MOD="APPROX"
+RULENAME="date_r17f",EXTRACTION="[Tt]his day",NORM_VALUE="INFER-day-PLUS-0"
+RULENAME="date_r17g",EXTRACTION="([Tt]he )?following %reUnit",NORM_VALUE="UNDEF-REF-%normUnit(group(2))-PLUS-1"
+
+// date_r18
+// EXAMPLE r18a_1: the beginning of this year
+// EXAMPLE r18b_1: the beginning of this November
+// EXAMPLE r18c_1: the beginning of this November 24
+// EXAMPLE r18d_1: the beginning of this Monday
+// EXAMPLE r18e_1: the beginning of this summer
+RULENAME="date_r18a",EXTRACTION="([Tt]he )?%rePartWords([ ]?)%reThisNextLast %reUnit",NORM_VALUE="UNDEF-%normThisNextLast(group(4))-%normUnit(group(5))",NORM_MOD="%normPartWords(group(2))"
+RULENAME="date_r18b",EXTRACTION="([Tt]he )?%rePartWords([ ]?)%reThisNextLast %reMonthLong",NORM_VALUE="UNDEF-%normThisNextLast(group(4))-%LOWERCASE%(group(5))",NORM_MOD="%normPartWords(group(2))"
+RULENAME="date_r18c",EXTRACTION="([Tt]he )?%rePartWords([ ]?)%reThisNextLast %reMonthLong %reDayNumber",NORM_VALUE="UNDEF-%normThisNextLast(group(4))-%LOWERCASE%(group(5))-%normDay(group(6))",NORM_MOD="%normPartWords(group(2))"
+RULENAME="date_r18d",EXTRACTION="([Tt]he )?%rePartWords([ ]?)%reThisNextLast %reWeekday",NORM_VALUE="UNDEF-%normThisNextLast(group(4))-%LOWERCASE%(group(5))",NORM_MOD="%normPartWords(group(2))"
+RULENAME="date_r18e",EXTRACTION="([Tt]he )?%rePartWords([ ]?)%reThisNextLast %reSeason",NORM_VALUE="UNDEF-year",NORM_MOD="%normPartWords(group(2))"
+
+// date_r19 (ago)
+// EXAMPLE r19a_1: at least several years ago
+// EXAMPLE r19b_1: about twenty years ago
+// EXAMPLE r19c_1: about 20 years ago
+// EXAMPLE r19d_1: a month ago
+// EXAMPLE r19d_1: many years (ago|prior)
+RULENAME="date_r19a",EXTRACTION="(%reApproximate )?(several|a couple of|some|a few) (%reUnit|minutes|hours)( or so| or more)? (ago|earlier)",NORM_VALUE="UNDEF-this-%normUnit(group(4))-MINUS-3",NORM_MOD="APPROX"
+RULENAME="date_r19b",EXTRACTION="(%reApproximate )?(%reNumWord2D|%reNumWord1D) (%reUnit|minutes|hours)( or so| or more)? ago",NORM_VALUE="UNDEF-this-%normUnit(group(6))-MINUS-%normDurationNumber(group(3))",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r19c",EXTRACTION="(%reApproximate )?([\d]+) (%reUnit|minutes|hours)( or so| or more)? ago",NORM_VALUE="UNDEF-this-%normUnit(group(4))-MINUS-group(3)",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r19d",EXTRACTION="(%reApproximate )?(an|a) (week-ends?|weekends?|trading days?|days?|months?|weeks?|decades?|century|quarters?|centuries|years?)( or so| or more)? ago",NORM_VALUE="UNDEF-this-%normUnit(group(4))-MINUS-1",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r19e",EXTRACTION="(%reApproximate )?(\d+) (week-ends?|weekends?|trading days?|days?|months?|weeks?|decades?|century|quarters?|centuries|years?)( or so| or more)? ago",NORM_VALUE="UNDEF-this-%normUnit(group(4))-MINUS-group(3)",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r19f",EXTRACTION="(many|several|few) %reUnit (ago|prior)",NORM_VALUE="UNDEF-this-%normUnit(group(2))-MINUS-3",NORM_MOD="APPROX"
+RULENAME="date_r19g",EXTRACTION="(%reApproximate )?(%reNumWord1D)(-| to | and )(%reNumWord1D)(.| \w+ )%reUnit ago",NORM_VALUE="UNDEF-this-%normUnit(group(9))-MINUS-%normDurationNumber(group(7))K%normDurationNumber(group(4))",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r19g1",EXTRACTION="(%reApproximate )?(%reNumWord2D)(-| to | and )(%reNumWord2D)(.| \w+ )%reUnit ago",NORM_VALUE="UNDEF-this-%normUnit(group(9))-MINUS-%normDurationNumber(group(7))K%normDurationNumber(group(4))",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r19g2",EXTRACTION="(%reApproximate )?(%reNumWord1D)(-| to | and )(%reNumWord2D)(.| \w+ )%reUnit ago",NORM_VALUE="UNDEF-this-%normUnit(group(9))-MINUS-%normDurationNumber(group(7))K%normDurationNumber(group(4))",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r19g3",EXTRACTION="(%reApproximate )?([\d]+)( |-| to | and )([\d]+)(.| \w+ )%reUnit ago",NORM_VALUE="UNDEF-this-%normUnit(group(7))-MINUS-group(5)Kgroup(3)",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r19g4",EXTRACTION="(%reApproximate )?([\d]+)( |-| to | and )([\d]+)(/[\d]+)(.| \w+ )%reUnit ago",NORM_VALUE="UNDEF-this-%normUnit(group(8))-MINUS-group(5)Fgroup(6)Kgroup(3)",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r19g5",EXTRACTION="(%reApproximate )?(the second )%reUnit",NORM_VALUE="UNDEF-this-%normUnit(group(4))-PLUS-1",NORM_MOD="%normApprox4Durations(group(2))"
+//RULENAME="date_r19g6",EXTRACTION="([Ii]n) (%reApproximate )?([tT]he next |[tT]he coming )?(%reNumWord1D)(-| to | and )(%reNumWord1D)(.| \w+ )%reUnit",NORM_VALUE="UNDEF-this-%normUnit(group(11))-PLUS-%normDurationNumber(group(8))K%normDurationNumber(group(5))",NORM_MOD="%normApprox4Dates(group(3))"
+//RULENAME="date_r19g7",EXTRACTION="([Ii]n) (%reApproximate )?([tT]he next |[tT]he coming )?(%reNumWord2D)(-| to | and )(%reNumWord2D)(.| \w+ )%reUnit",NORM_VALUE="UNDEF-this-%normUnit(group(11))-PLUS-%normDurationNumber(group(8))K%normDurationNumber(group(5))",NORM_MOD="%normApprox4Dates(group(3))"
+//RULENAME="date_r19g8",EXTRACTION="([Ii]n) (%reApproximate )?([tT]he next |[tT]he coming )?(%reNumWord1D)(-| to | and )(%reNumWord2D)(.| \w+ )%reUnit",NORM_VALUE="UNDEF-this-%normUnit(group(11))-PLUS-%normDurationNumber(group(8))K%normDurationNumber(group(5))",NORM_MOD="%normApprox4Dates(group(3))"
+//RULENAME="date_r19g9",EXTRACTION="([Ii]n) (%reApproximate )?([tT]he next |[tT]he coming )?([\d]+)( |-| to | and )([\d]+)(.| \w+ )%reUnit",NORM_VALUE="UNDEF-this-%normUnit(group(9))-PLUS-group(7)Kgroup(5)",NORM_MOD="%normApprox4Dates(group(3))"
+//RULENAME="date_r19g10",EXTRACTION="([Ii]n) (%reApproximate )?([tT]he next |[tT]he coming )?(several|a? ?number of|many|some|several|a? ?few|few) %reUnit",NORM_VALUE="UNDEF-this-%normUnit(group(6))-PLUS-3",NORM_MOD="%normApprox4Dates(group(3))"
+RULENAME="date_r19g11",EXTRACTION="(%reApproximate )?([tT]he past |[tT]he previous )?(several|a? ?number of|many|some|several|a? ?few|few) %reUnit",NORM_VALUE="UNDEF-this-%normUnit(group(5))-MINUS-3",NORM_MOD="%normApprox4Dates(group(2))"
+
+// date_r20 (later)
+// EXAMPLE r20a_1: some days later
+// EXAMPLE r20b_1: about twenty days later
+// EXAMPLE r20c_1: about 20  days later
+// EXAMPLE r20d_1: a year later 
+RULENAME="date_r20a",EXTRACTION="(%reApproximate )?(several|a couple of|some|a few) (%reUnit|minutes|hours) later",NORM_VALUE="UNDEF-this-%normUnit(group(4))-PLUS-3",NORM_MOD="APPROX"
+RULENAME="date_r20b",EXTRACTION="(%reApproximate )?(%reNumWord2D|%reNumWord1D) (%reUnit|minutes|hours) later",NORM_VALUE="UNDEF-REF-%normUnit(group(6))-PLUS-%normDurationNumber(group(3))",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r20c",EXTRACTION="(%reApproximate )?([\d]+) (%reUnit|minutes|hours) later",NORM_VALUE="UNDEF-REF-%normUnit(group(4))-PLUS-group(3)",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r20d",EXTRACTION="(%reApproximate )?(an|a) (%reUnit) later",NORM_VALUE="UNDEF-REF-%normUnit(group(4))-PLUS-1",NORM_MOD="%normApprox4Dates(group(2))"
+//RULENAME="date_r20e",EXTRACTION="recent %reUnit",NORM_VALUE="UNDEF-this-%normUnit(group(1))-PLUS-0",NORM_MOD="APPROX"
+
+//RULENAME="date_r20e",EXTRACTION="([Ii]n) ([tT]he next |[tT]he coming )?(several|a couple of|some|a few) (%reUnit|minutes|hours)",NORM_VALUE="UNDEF-this-%normUnit(group(5))-PLUS-3",NORM_MOD="APPROX"
+//RULENAME="date_r20f",EXTRACTION="([Ii]n) ([tT]he next |[tT]he coming )?(%reNumWord2D|%reNumWord1D) (%reUnit|minutes|hours)",NORM_VALUE="UNDEF-REF-%normUnit(group(6))-PLUS-%normDurationNumber(group(3))",NORM_MOD="NA"
+//RULENAME="date_r20g",EXTRACTION="([Ii]n) ([tT]he next |[tT]he coming )?([\d]+) (%reUnit|minutes|hours)",NORM_VALUE="UNDEF-REF-%normUnit(group(5))-PLUS-group(3)",NORM_MOD="NA"
+//RULENAME="date_r20h",EXTRACTION="([Ii]n) ([tT]he next |[tT]he coming )?(an|a) (%reUnit)",NORM_VALUE="UNDEF-REF-%normUnit(group(5))-PLUS-1",NORM_MOD="NA"
+
+// date_r21 (earlier)
+// EXAMPLE r21a_1: twenty days earlier
+// EXAMPLE r21b_1: about 20 days earlier
+// EXAMPLE r21c_1: a year earlier
+RULENAME="date_r21a",EXTRACTION="(%reApproximate )?(%reNumWord2D|%reNumWord1D) (%reUnit|minutes|hours) earlier",NORM_VALUE="UNDEF-REF-%normUnit(group(6))-MINUS-%normDurationNumber(group(3))",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r21b",EXTRACTION="(%reApproximate )?([\d]+) (%reUnit|minutes|hours) earlier",NORM_VALUE="UNDEF-REF-%normUnit(group(4))-MINUS-group(3)",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="date_r21c",EXTRACTION="(%reApproximate )?(an|a) (%reUnit) earlier",NORM_VALUE="UNDEF-REF-%normUnit(group(4))-MINUS-1",NORM_MOD="%normApprox4Dates(group(2))"
+
+// date_r24 (ago/earlier/later normalizing with REFUNIT)
+// EXAMPLE r22a_1: a year ago
+// EXAMPLE r22b_1: a year later
+RULENAME="date_r22a",EXTRACTION="[Aa] year (ago|earlier)",NORM_VALUE="UNDEF-REFUNIT-year-MINUS-1"
+RULENAME="date_r22b",EXTRACTION="[Aa] year (later)",NORM_VALUE="UNDEF-REFUNIT-year-PLUS-1"
+
+// date_r23
+// EXAMPLE r23a_1: the year-earlier first quarter
+// EXAMPLE r23b_1: the year-earlier quarter
+// EXAMPLE r23c_1: the quarter
+//RULENAME="date_r23a",EXTRACTION="([Tt]he )?(year-earlier|year-ago) %rePartOfYear",NORM_VALUE="UNDEF-REF-year-MINUS-1-%normPartOfYear(group(3))"
+//RULENAME="date_r23b",EXTRACTION="([Tt]he|[Tt]hat) (year-earlier|year-ago) quarter",NORM_VALUE="UNDEF-REF-quarter-MINUS-4"
+//RULENAME="date_r23c",EXTRACTION="([Tt]he|[Tt]hat) quarter",NORM_VALUE="UNDEF-REF-quarter-PLUS-0"
+
+
+///////////////////
+// HOLIDAY RULES //
+///////////////////
+
+//date_r24
+//EXAMPLE r24a_1: Christmas
+//EXAMPLE r24b_1: Christmas 2010
+//EXAMPLE r24c_1: Christmas 87
+//EXAMPLE r24d_1: Christmas '87
+
+RULENAME="date_r24a",EXTRACTION="%reHolidayFix",NORM_VALUE="UNDEF-year-%normHolidayFix(group(1))"
+RULENAME="date_r24b",EXTRACTION="%reHolidayFix %reYear4Digit",NORM_VALUE="group(2)-%normHolidayFix(group(1))"
+RULENAME="date_r24c",EXTRACTION="%reHolidayFix %reYear2Digit",NORM_VALUE="UNDEF-centurygroup(2)-%normHolidayFix(group(1))"
+RULENAME="date_r24d",EXTRACTION="%reHolidayFix '%reYear2Digit",NORM_VALUE="UNDEF-centurygroup(2)-%normHolidayFix(group(1))"
+
+//date_r25
+//EXAMPLE r25a_1: Eastersunday
+//EXAMPLE r25b_1: Eastersunday 2010
+//EXAMPLE r25c_1: Eastersunday 87
+//EXAMPLE r25d_1: Eastersunday '87
+
+RULENAME="date_r25a",EXTRACTION="%reHolidayVar",NORM_VALUE="UNDEF-year-00-00 %normHolidayVar(group(1))"
+RULENAME="date_r25b",EXTRACTION="%reHolidayVar %reYear4Digit",NORM_VALUE="group(2)-00-00 %normHolidayVar(group(1))"
+RULENAME="date_r25c",EXTRACTION="%reHolidayVar %reYear2Digit",NORM_VALUE="UNDEF-centurygroup(2)-00-00 %normHolidayVar(group(1))"
+RULENAME="date_r25d",EXTRACTION="%reHolidayVar '%reYear2Digit",NORM_VALUE="UNDEF-centurygroup(2)-00-00 %normHolidayVar(group(1))"
+
+//////////////////
+//additional rules
+//////////////////
+
+//date_r26
+//EXAMPLE r26a_1: the day
+//EXAMPLE r26b_1: the day of admission
+//EXAMPLE r26c_1: the day of discharge
+//EXAMPLE r26d_1: the day before discharge
+//EXAMPLE r26e_1: the day before admission
+//EXAMPLE r26f_1: the day|time of transfer
+//EXAMPLE r26g_1: the operative day
+//EXAMPLE r26h_1: day two of admission
+//EXAMPLE r26i_1: the admission date
+//EXAMPLE r26j_1: the discharge date
+
+//-RULENAME="date_r26a",EXTRACTION="([Tt]he\s+)?day [^o][^f]",NORM_VALUE="UNDEF-REF-day-PLUS-0"
+//-RULENAME="date_r26a1",EXTRACTION="([Tt]he\s+)?same day",NORM_VALUE="UNDEF-REF-day-PLUS-0"
+RULENAME="date_r26a",EXTRACTION="([Tt]he\s+)?day [^o][^f]",NORM_VALUE="INFER-day-PLUS-0"
+RULENAME="date_r26a1",EXTRACTION="([Tt]he\s+)?same day",NORM_VALUE="INFER-day-PLUS-0"
+RULENAME="date_r26b",EXTRACTION="([Tt]he\s+)?day of admission",NORM_VALUE="ADMDATE-PLUS-0"
+RULENAME="date_r26c",EXTRACTION="([Tt]he\s+)?day of discharge",NORM_VALUE="DISDATE-PLUS-0"
+RULENAME="date_r26d",EXTRACTION="([Tt]he\s+)?day (prior to|before) discharge",NORM_VALUE="DISDATE-MINUS-1"
+RULENAME="date_r26e",EXTRACTION="([Tt]he\s+)?day (prior to |before) admission",NORM_VALUE="ADMDATE-MINUS-1"
+RULENAME="date_r26f",EXTRACTION="([Tt]he\s+)?(day|time) of transfer",NORM_VALUE="ADMDATE-PLUS-0"
+RULENAME="date_r26g",EXTRACTION="([Tt]he\s+)?(operative|op) day",NORM_VALUE="ADMDATE-PLUS-0"
+RULENAME="date_r26h",EXTRACTION="day (%reNumWord1D|%reNumWord2D) of admission",NORM_VALUE="HOSPITALDAY-%normDay(group(1))"
+RULENAME="date_r26i",EXTRACTION="([Tt]he\s+)?admission date",NORM_VALUE="ADMDATE-PLUS-0"
+RULENAME="date_r26j",EXTRACTION="([Tt]he\s+)?discharge date",NORM_VALUE="DISDATE-PLUS-0"
+RULENAME="date_r26m",EXTRACTION="(%reNumWord1D|%reNumWord2D) days? (prior to admission|PTA|pta|before admission)",NORM_VALUE="ADMDATE-MINUS-%normDay(group(1))"
+RULENAME="date_r26n",EXTRACTION="(\d+) days? (prior to admission|PTA|pta|before admission)",NORM_VALUE="ADMDATE-MINUS-%normDay(group(1))"
+RULENAME="date_r26s",EXTRACTION="(%reNumWord1D|%reNumWord2D) days? (prior to discharge|before discharge)",NORM_VALUE="DISDATE-MINUS-%normDay(group(1))"
+RULENAME="date_r26t",EXTRACTION="(\d+) days? (prior to discharge|before discharge)",NORM_VALUE="DISDATE-MINUS-%normDay(group(1))"
+
+//date_r27
+//TODO anchor to the local date if exists (rare)
+//POD - if the local date exists anchor to it, if not anchor to the admission date
+//cf) POD #0 is the anchor date
+//EXAMPLE r27a_1: (POD|pod|POST-OP|post-op|postoperative) day\s{0,}#?\s{0,}1, 
+//EXAMPLE r27b_1: (POD|pod|POST-OP|post-op|postoperative) day (number)? two
+//EXAMPLE r27c_1: (POD|pod|POST-OP|post-op|postoperative) number 2
+//EXAMPLE r27d_1: the third (POD|pod|POST-OP|post-op|postoperative) day
+//EXAMPLE r27e_1: (POD|pod|POST-OP|post-op|postoperative) day # ?two
+//EXAMPLE r27f_1: (POD|pod|POST-?OP|post-?op|[Pp]ost-?operative) #1
+//EXAMPLE r27g_1: POD1
+//EXAMPLE r27h_1: POD number two
+//EXAMPLE r27i_1: postop two
+//EXAMPLE r27j_1: post-operative day number zero
+//EXAMPLE r27k_1: the first post-operative night
+RULENAME="date_r27a",EXTRACTION="(POD|pod|POST-?OP|post-?op|[Pp]ost-?operativel?y?) (day|DAY)\s{0,}#?\s{0,}(\d+)",NORM_VALUE="OPDATE-PLUS-group(3)"
+RULENAME="date_r27b",EXTRACTION="(POD|pod|POST-?OP|post-?op|[Pp]ost-?operative) (day|DAY) (number)?\s{0,}(%reNumWord1D|%reNumWord2D)",NORM_VALUE="OPDATE-PLUS-%normDay(group(4))"
+RULENAME="date_r27c",EXTRACTION="(POD|pod|POST-?OP|post-?op|[Pp]ost-?operative) (day|DAY) number (\d+)",NORM_VALUE="OPDATE-PLUS-group(3)"
+RULENAME="date_r27d",EXTRACTION="([Tt]he\s+)?(%reDayWordTh|%reDayNumberTh) (POD|pod|POST-?OP|post-?op|[Pp]ost-?operative) (day|DAY)",NORM_VALUE="OPDATE-PLUS-%normDay(group(2))"
+RULENAME="date_r27e",EXTRACTION="(POD|pod|POST-?OP|post-?op|[Pp]ost-?operative) (day|DAY) #\s{0,}(%reNumWord1D|%reNumWord2D)",NORM_VALUE="OPDATE-PLUS-%normDay(group(3))"
+RULENAME="date_r27f",EXTRACTION="(POD|pod|POST-?OP|post-?op|[Pp]ost-?operative)\s{0,}#\s{0,}(\d+)",NORM_VALUE="OPDATE-PLUS-%normDay(group(2))"
+RULENAME="date_r27g",EXTRACTION="(POD|pod|POST-?OP|post-?op)\s{0,}(number\s{0,})?(\d+)",NORM_VALUE="OPDATE-PLUS-group(3)"
+RULENAME="date_r27h",EXTRACTION="(POD|pod|POST-?OP|post-?op)\s{0,}(number\s{0,})?(%reNumWord1D|%reNumWord2D)",NORM_VALUE="OPDATE-PLUS-%normDay(group(3))"
+//weak rules
+RULENAME="date_r27i",EXTRACTION="(POST-?OP|post-?op|[Pp]ost-?operative) (%reNumWord1D|%reNumWord2D)",NORM_VALUE="OPDATE-PLUS-%normDay(group(2))"
+RULENAME="date_r27j",EXTRACTION="(POST-?OP|post-?op|[Pp]ost-?operative) day number zero",NORM_VALUE="OPDATE-PLUS-0"
+RULENAME="date_r27k",EXTRACTION="([Tt]he\s+)?%reDayWordTh (POD|pod|POST-?OP|post-?op|[Pp]ost-?operative) night",NORM_VALUE="OPDATE-PLUS-%normDay(group(2))",NORM_MOD="END"
+RULENAME="date_r27l",EXTRACTION="([Tt]he\s+)?%reDayWordTh (POD|pod|POST-?OP|post-?op|[Pp]ost-?operative) morning",NORM_VALUE="OPDATE-PLUS-%normDay(group(2))",NORM_MOD="START"
+RULENAME="date_r27m",EXTRACTION="([Tt]he\s+)?%reDayWordTh (POD|pod|POST-?OP|post-?op|[Pp]ost-?operative) afternoon",NORM_VALUE="OPDATE-PLUS-%normDay(group(2))",NORM_MOD="MIDDLE"
+
+//date_r28
+//EXAMPLE r28a_1: (hospital )day 1 
+//EXAMPLE r28b_1: (hospital )day number two
+//EXAMPLE r28c_1: (hospital )day number 2
+//EXAMPLE r28d_1: the third hospital day 
+//EXAMPLE r28e_1: HD2
+RULENAME="date_r28a",EXTRACTION="(([Hh]ospital|hsp)\s+)?day\s{0,}#?\s{0,}(\d+)",NORM_VALUE="HOSPITALDAY-group(3)"
+RULENAME="date_r28b",EXTRACTION="(([Hh]ospital|hsp)\s+)?day (number)?\s{0,}(%reNumWord1D|%reNumWord2D)",NORM_VALUE="HOSPITALDAY-%normDay(group(4))"
+RULENAME="date_r28c",EXTRACTION="(([Hh]ospital|hsp)\s+)?day number (\d+)",NORM_VALUE="HOSPITALDAY-group(3)"
+RULENAME="date_r28d",EXTRACTION="[Tt]he (%reDayWordTh|%reDayNumberTh) ([Hh]ospital|hsp) day",NORM_VALUE="HOSPITALDAY-%normDay(group(1))"
+RULENAME="date_r28e",EXTRACTION="HD\s?#?\s?(\d+)",NORM_VALUE="HOSPITALDAY-%normDay(group(1))"
+RULENAME="date_r28f",EXTRACTION="hd\s?#?\s?(\d+)",NORM_VALUE="HOSPITALDAY-%normDay(group(1))"
+
+//date_r29
+//EXAMPLE r29a_1: the morning of admission
+//EXAMPLE r29b_1: the morning of dischage
+//EXAMPLE r29c_1: the afternoon of admission
+//EXAMPLE r29d_1: the afternoon of discharge
+//EXAMPLE r29e_1: the evening of admission
+//EXAMPLE r29f_1: the evening of discharge
+RULENAME="date_r29a",EXTRACTION="[Tt]he morning of admission",NORM_VALUE="ADMDATE-PLUS-0",NORM_MOD="START"
+RULENAME="date_r29b",EXTRACTION="[Tt]he morning of discharge",NORM_VALUE="DISDATE-PLUS-0",NORM_MOD="START"
+RULENAME="date_r29c",EXTRACTION="[Tt]he afternoon of admission",NORM_VALUE="ADMDATE-PLUS-0",NORM_MOD="MIDDLE"
+RULENAME="date_r29d",EXTRACTION="[Tt]he afternoon of discharge",NORM_VALUE="DISDATE-PLUS-0",NORM_MOD="MIDDLE"
+RULENAME="date_r29e",EXTRACTION="[Tt]he evening of admission",NORM_VALUE="ADMDATE-PLUS-0",NORM_MOD="END"
+RULENAME="date_r29f",EXTRACTION="[Tt]he evening of discharge",NORM_VALUE="DISDATE-PLUS-0",NORM_MOD="END"
+
+//date_r30
+// rare
+//EXAMPLE r30a_1: the morning (of|on)
+//EXAMPLE r30b_1: the afternoon (of|on)
+//EXAMPLE r30c_1: the evening (of|on)
+RULENAME="date_r30a",EXTRACTION="[Tt]he morning (of|on) the (%reDayWordTh|%reDayNumberTh)",NORM_VALUE="UNDEF-REF-day-PLUS-0",NORM_MOD="START"
+RULENAME="date_r30b",EXTRACTION="[Tt]he afternoon (of|on) the (%reDayWordTh|%reDayNumberTh)",NORM_VALUE="UNDEF-REF-day-PLUS-0",NORM_MOD="MIDDLE"
+RULENAME="date_r30c",EXTRACTION="[Tt]he evening (of|on) the (%reDayWordTh|%reDayNumberTh)",NORM_VALUE="UNDEF-REF-day-PLUS-0",NORM_MOD="END"
+
+//date_r31
+//EXAMPLE r31a_1: (this|that) morning
+//EXAMPLE r31b_1: (this|that) afternoon
+//EXAMPLE r31c_1: (this|that) evening
+RULENAME="date_r31a",EXTRACTION="([Tt]his|[Tt]hat) (morning|AM|am)",NORM_VALUE="INFER-day-PLUS-0",NORM_MOD="START"
+RULENAME="date_r31b",EXTRACTION="([Tt]his|[Tt]hat) afternoon",NORM_VALUE="INFER-day-PLUS-0",NORM_MOD="MIDDLE"
+RULENAME="date_r31c",EXTRACTION="([Tt]his|[Tt]hat) (evening|night|PM|pm)",NORM_VALUE="INFER-day-PLUS-0",NORM_MOD="END"
+//---The followings are moved from Time
+RULENAME="date_r31e",EXTRACTION="(([Ee]arlier|[Ll]ater|[Ee]arly) )?%reThisNextLast %rePartOfDay",NORM_VALUE="UNDEF-%normThisNextLast(group(3))-day",NORM_MOD="%normPartOfDayI2B2(group(4))"
+
+//date_r32
+//EXAMPLE r32a_1: at that time
+RULENAME="date_r32a",EXTRACTION="[Aa]t (that|this) (time)",NORM_VALUE="INFER-day-PLUS-0",OFFSET="(group(1)-group(2))"
+
+//date_r33
+//EXAMPLE r33a_1: at the time of admission
+//EXAMPLE r33b_1: at the time of discharge
+//EXAMPLE r33c_1: the time of his admission
+//EXAMPLE r33d_1: the time of his discharge
+RULENAME="date_r33a",EXTRACTION="[Aa]t (the) (time) of admission",NORM_VALUE="ADMDATE-PLUS-0",OFFSET="(group(1)-group(2))"
+RULENAME="date_r33b",EXTRACTION="[Aa]t (the) (time) of discharge",NORM_VALUE="DISDATE-PLUS-0",OFFSET="(group(1)-group(2))"
+RULENAME="date_r33c",EXTRACTION="[Tt]he time of ((his|her)\s+)?admission",NORM_VALUE="ADMDATE-PLUS-0"
+RULENAME="date_r33d",EXTRACTION="[Tt]he time of ((his|her)\s+)?discharge",NORM_VALUE="DISDATE-PLUS-0"
+
+//date_r34
+//TODO if the local date exists anchor to it, if not anchor to the admission date
+//cf) POD #0 is the anchor date
+//EXAMPLE r34a_1: day of life\s{0,}#?\s{0,}1, 
+//EXAMPLE r34b_1: day of life (number)? two
+//EXAMPLE r34c_1: day of life number 2
+//EXAMPLE r34d_1: the third day of life
+//EXAMPLE r34e_1: day of life # ?two
+//EXAMPLE r34f_1: day of life #1
+RULENAME="date_r34a",EXTRACTION="day of life\s{0,}#?\s{0,}(\d+)",NORM_VALUE="HOSPITALDAY-group(1)"
+RULENAME="date_r34b",EXTRACTION="day of life (number)?\s{0,}(%reNumWord1D|%reNumWord2D)",NORM_VALUE="HOSPITALDAY-%normDay(group(2))"
+RULENAME="date_r34c",EXTRACTION="day of life number (\d+)",NORM_VALUE="HOSPITALDAY-group(1)"
+RULENAME="date_r34d",EXTRACTION="[Tt]he %reDayWordTh day of life",NORM_VALUE="HOSPITALDAY-%normDay(group(1))"
+RULENAME="date_r34e",EXTRACTION="day of life #\s{0,}(%reNumWord1D|%reNumWord2D)",NORM_VALUE="HOSPITALDAY-%normDay(group(1))"
+RULENAME="date_r34f",EXTRACTION="day of life\s{0,}#\s{0,}(\d+)",NORM_VALUE="HOSPITALDAY-%normDay(group(1))"
+
+//date_r35
+//EXAMPLE r35a_1: '96
+//RULENAME="date_r35a",EXTRACTION="'(\d\d)",NORM_VALUE="19group(1)"
+
+//date_r36
+//EXAMPLE r36a_1: 
+//The night prior, the evening prior, the previous night, the previously night
+RULENAME="date_r36a",EXTRACTION="([Tt]he\s+)?(night|evening) (prior|before)",NORM_VALUE="INFER-day-MINUS-1",NORM_MOD="END"
+RULENAME="date_r36b",EXTRACTION="([Tt]he\s+)?(previousl?y?|last) (night|evening)",NORM_VALUE="INFER-day-MINUS-1",NORM_MOD="END"
+
+//date_r37
+//EXAMPLE r37a_1: the (next|following) morning
+//EXAMPLE r37b_1: the (next|following) afternoon
+//EXAMPLE r37c_1: the (next|following) (evening|night)
+RULENAME="date_r37a",EXTRACTION="([Tt]he\s+)?(next|following) morning",NORM_VALUE="INFER-day-PLUS-1",NORM_MOD="START"
+RULENAME="date_r37b",EXTRACTION="([Tt]he\s+)?(next|following) afternoon",NORM_VALUE="INFER-day-PLUS-1",NORM_MOD="MIDDLE"
+RULENAME="date_r37c",EXTRACTION="([Tt]he\s+)?(next|following) (evening|night)",NORM_VALUE="INFER-day-PLUS-1",NORM_MOD="END"
+//---The followings are moved from Time
+//RULENAME="date_r37e",EXTRACTION="(([Ee]arlier|[Ll]ater|[Ee]arly) )?%reThisNextLast %rePartOfDay",NORM_VALUE="UNDEF-%normThisNextLast(group(3))-day",NORM_MOD="%normPartOfDayI2B2(group(4))"
+RULENAME="date_r37f",EXTRACTION="([Tt]onight)",NORM_VALUE="INFER-day-PLUS-0",NORM_MOD="END"
+
+//date_r38
+//EXAMPLE r38a_1: the (same|present) time
+RULENAME="date_r38a",EXTRACTION="[Tt]he (same|present) time",NORM_VALUE="INFER-day-PLUS-0",NORM_MOD="APPROX"
+
+////////////////////
+// NEGATIVE RULES //
+////////////////////
+// EXAMPLE r1a_negative_1: as soon as (do not match soon if it is in "as soon as")
+RULENAME="date_r1_negative",EXTRACTION="as soon as",NORM_VALUE="REMOVE"
+
+// EXAMPLE r2a_negative_1: they march the way (if it is a verb)
+// EXAMPLE r2b_negative_1: they march the way (if it is a verb)
+// EXAMPLE r2c_negative_1: may   (if it is a verb)
+RULENAME="date_r2a_negative",EXTRACTION="(%reMonthLong|%reMonthShort)",NORM_VALUE="REMOVE",POS_CONSTRAINT="group(1):VBP:"
+RULENAME="date_r2b_negative",EXTRACTION="(%reMonthLong|%reMonthShort)",NORM_VALUE="REMOVE",POS_CONSTRAINT="group(1):VVP:"
+RULENAME="date_r2c_negative",EXTRACTION="(%reMonthLong|%reMonthShort)",NORM_VALUE="REMOVE",POS_CONSTRAINT="group(1):MD:"
+
+// EXAMPLE r3a_negative_1: 2000 soldiers (four digit number followed by a plural noun)
+// EXAMPLE r3b_negative_1: 2000 dead soldiers (four digit number followed by an adjective and a plural noun)
+// EXAMPLE r3c_negative_1: 2000 kilometer (four digit number followed a non-temporal unit)
+RULENAME="date_r3a_negative",EXTRACTION="%reYear4Digit ([\S]+)",NORM_VALUE="REMOVE",POS_CONSTRAINT="group(2):NNS:"
+RULENAME="date_r3b_negative",EXTRACTION="%reYear4Digit ([\S]+) ([\S]+)",NORM_VALUE="REMOVE",POS_CONSTRAINT="group(2):JJ:group(3):NNS:"
+RULENAME="date_r3c_negative",EXTRACTION="%reYear4Digit (kilometers?|miles?|foot|feet|dollars?)",NORM_VALUE="REMOVE"
+
+// EXAMPLE r4a_negative: W2000.1920
+RULENAME="date_r4a_negative",EXTRACTION="[\S]+%reYear4Digit\.%reYear4Digit",NORM_VALUE="REMOVE"
+
+//Etc
+// EXAMPLE r5a_negative
+RULENAME="date_r5a_negative",EXTRACTION="([Tt]hat|[Tt]his) may",NORM_VALUE="REMOVE"
+RULENAME="date_r5b_negative",EXTRACTION="fall",NORM_VALUE="REMOVE"
+RULENAME="date_r5c_negative",EXTRACTION="\d(-|/)\d",NORM_VALUE="REMOVE"

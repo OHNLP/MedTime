@@ -1,0 +1,21 @@
+// This file contains "decade words" and their normalized expressions 
+// according to TIMEX3 format.
+// For example, the normalized value of "twenties" is "2X"
+// FORMAT: "decade-word","normalized-decade-word"
+"twenties","20"
+"thirties","30"
+"forties","40"
+"fifties","50"
+"sixties","60"
+"seventies","70"
+"eighties","80"
+"nineties","90"
+// UPPER CASE
+"Twenties","20"
+"Thirties","30"
+"Forties","40"
+"Fifties","50"
+"Sixties","60"
+"Seventies","70"
+"Eighties","80"
+"Nineties","90"

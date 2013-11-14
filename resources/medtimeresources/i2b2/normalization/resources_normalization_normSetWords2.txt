@@ -1,0 +1,15 @@
+// This file contains "set words" and their normalized expressions
+// according to TIMEX3 format.
+// FORMAT: "set-word","normalized-set-word"
+"Annually","Y"
+"annually","Y"
+"Monthly","M"
+"monthly","M"
+"Weekly","W"
+"weekly","W"
+"Daily","D"
+"daily","D"
+"Hourly","TH"
+"hourly","TH"
+"Minutely","TM"
+"minutely","TM"
