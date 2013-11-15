@@ -26,7 +26,7 @@
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
-    <name>MedTimeAggreateTAE</name>
+    <name>MedTimeAggregateTAE</name>
     <description>Aggregate engine for time expression tagging</description>
     <version>1.0</version>
     <vendor/>
