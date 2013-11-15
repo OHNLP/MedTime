@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:textspan="http:///org/ohnlp/typesystem/type/textspan.ecore" xmlns:cas="http:///uima/cas.ecore" xmlns:type2="http:///org/ohnlp/medtime/type.ecore" xmlns:xmi="http://www.omg.org/XMI" xmlns:structured="http:///org/ohnlp/typesystem/type/structured.ecore" xmlns:type="http:///org/ohnlp/medtagger/type.ecore" xmlns:tcas="http:///uima/tcas.ecore" xmlns:syntax="http:///org/ohnlp/typesystem/type/syntax.ecore" xmlns:refsem="http:///org/ohnlp/typesystem/type/refsem.ecore" xmlns:util="http:///org/ohnlp/typesystem/type/util.ecore" xmlns:textsem="http:///org/ohnlp/typesystem/type/textsem.ecore" xmlns:relation="http:///org/ohnlp/typesystem/type/relation.ecore" xmi:version="2.0">
+    <cas:NULL xmi:id="0"/>
+    <cas:Sofa xmi:id="6" sofaNum="1" sofaID="_InitialView" mimeType="text" sofaString="Admission Date :&#10;01/22/2013&#10;Discharge Date :&#10;01/27/2013&#10;HISTORY OF PRESENT ILLNESS :&#10;The patient is a 45-year-old woman who is chronic hepatitis B for ten years.&#10;She complained extreme tiredness and suffered from loss of appetite.&#10;In 01/23/2013, she had a CT scan which showed hepatocirrhosis.&#10;HOSPITAL COURSE :&#10;On the third hospital day , she did have some pain.&#10;"/>
+    <tcas:DocumentAnnotation xmi:id="1" sofa="6" begin="0" end="364" language="en"/>
+    <textspan:Sentence xmi:id="768" sofa="6" begin="17" end="27" id="5.15:1" segment="1659"/>
+    <textspan:Sentence xmi:id="808" sofa="6" begin="45" end="55" id="5.16.35.35:1" segment="1671"/>
+    <textspan:Sentence xmi:id="848" sofa="6" begin="85" end="161" id="5.28:1" segment="1683"/>
+    <textspan:Sentence xmi:id="862" sofa="6" begin="162" end="230" id="5.28:2" segment="1683"/>
+    <textspan:Sentence xmi:id="876" sofa="6" begin="231" end="293" id="5.28:3" segment="1683"/>
+    <textspan:Sentence xmi:id="910" sofa="6" begin="312" end="363" id="5.32:1" segment="1695"/>
+    <textspan:Sentence xmi:id="1665" sofa="6" begin="0" end="16" id="5.15:0" segment="1659"/>
+    <textspan:Sentence xmi:id="1677" sofa="6" begin="28" end="44" id="5.16.35.35:0" segment="1671"/>
+    <textspan:Sentence xmi:id="1689" sofa="6" begin="56" end="84" id="5.28:0" segment="1683"/>
+    <textspan:Sentence xmi:id="1701" sofa="6" begin="294" end="311" id="5.32:0" segment="1695"/>
+    <syntax:Chunk xmi:id="565" sofa="6" begin="0" end="14" chunkType="NP"/>
+    <syntax:Chunk xmi:id="570" sofa="6" begin="17" end="42" chunkType="NP"/>
+    <syntax:Chunk xmi:id="575" sofa="6" begin="45" end="63" chunkType="NP"/>
+    <syntax:Chunk xmi:id="580" sofa="6" begin="64" end="66" chunkType="PP"/>
+    <syntax:Chunk xmi:id="585" sofa="6" begin="67" end="82" chunkType="NP"/>
+    <syntax:Chunk xmi:id="590" sofa="6" begin="85" end="96" chunkType="NP"/>
+    <syntax:Chunk xmi:id="595" sofa="6" begin="97" end="99" chunkType="VP"/>
+    <syntax:Chunk xmi:id="600" sofa="6" begin="100" end="119" chunkType="NP"/>
+    <syntax:Chunk xmi:id="605" sofa="6" begin="120" end="123" chunkType="NP"/>
+    <syntax:Chunk xmi:id="610" sofa="6" begin="124" end="126" chunkType="VP"/>
+    <syntax:Chunk xmi:id="615" sofa="6" begin="127" end="146" chunkType="NP"/>
+    <syntax:Chunk xmi:id="620" sofa="6" begin="147" end="150" chunkType="PP"/>
+    <syntax:Chunk xmi:id="625" sofa="6" begin="151" end="160" chunkType="NP"/>
+    <syntax:Chunk xmi:id="630" sofa="6" begin="162" end="165" chunkType="NP"/>
+    <syntax:Chunk xmi:id="635" sofa="6" begin="166" end="176" chunkType="VP"/>
+    <syntax:Chunk xmi:id="640" sofa="6" begin="177" end="194" chunkType="NP"/>
+    <syntax:Chunk xmi:id="645" sofa="6" begin="199" end="207" chunkType="VP"/>
+    <syntax:Chunk xmi:id="650" sofa="6" begin="208" end="212" chunkType="PP"/>
+    <syntax:Chunk xmi:id="655" sofa="6" begin="213" end="217" chunkType="NP"/>
+    <syntax:Chunk xmi:id="660" sofa="6" begin="218" end="220" chunkType="PP"/>
+    <syntax:Chunk xmi:id="665" sofa="6" begin="221" end="229" chunkType="NP"/>
+    <syntax:Chunk xmi:id="670" sofa="6" begin="231" end="233" chunkType="PP"/>
+    <syntax:Chunk xmi:id="675" sofa="6" begin="234" end="244" chunkType="NP"/>
+    <syntax:Chunk xmi:id="680" sofa="6" begin="246" end="249" chunkType="NP"/>
+    <syntax:Chunk xmi:id="685" sofa="6" begin="250" end="253" chunkType="VP"/>
+    <syntax:Chunk xmi:id="690" sofa="6" begin="254" end="263" chunkType="NP"/>
+    <syntax:Chunk xmi:id="695" sofa="6" begin="264" end="269" chunkType="NP"/>
+    <syntax:Chunk xmi:id="700" sofa="6" begin="270" end="276" chunkType="VP"/>
+    <syntax:Chunk xmi:id="705" sofa="6" begin="277" end="292" chunkType="NP"/>
+    <syntax:Chunk xmi:id="710" sofa="6" begin="294" end="309" chunkType="NP"/>
+    <syntax:Chunk xmi:id="715" sofa="6" begin="312" end="314" chunkType="PP"/>
+    <syntax:Chunk xmi:id="720" sofa="6" begin="315" end="337" chunkType="NP"/>
+    <syntax:Chunk xmi:id="725" sofa="6" begin="340" end="343" chunkType="NP"/>
+    <syntax:Chunk xmi:id="730" sofa="6" begin="344" end="352" chunkType="VP"/>
+    <syntax:Chunk xmi:id="735" sofa="6" begin="353" end="362" chunkType="NP"/>
+    <syntax:NewlineToken xmi:id="740" sofa="6" begin="16" end="17" tokenNumber="0"/>
+    <syntax:NewlineToken xmi:id="760" sofa="6" begin="27" end="28" tokenNumber="1"/>
+    <syntax:NewlineToken xmi:id="780" sofa="6" begin="44" end="45" tokenNumber="2"/>
+    <syntax:NewlineToken xmi:id="800" sofa="6" begin="55" end="56" tokenNumber="3"/>
+    <syntax:NewlineToken xmi:id="820" sofa="6" begin="84" end="85" tokenNumber="4"/>
+    <syntax:NewlineToken xmi:id="840" sofa="6" begin="161" end="162" tokenNumber="5"/>
+    <syntax:NewlineToken xmi:id="854" sofa="6" begin="230" end="231" tokenNumber="6"/>
+    <syntax:NewlineToken xmi:id="868" sofa="6" begin="293" end="294" tokenNumber="7"/>
+    <syntax:NewlineToken xmi:id="882" sofa="6" begin="311" end="312" tokenNumber="8"/>
+    <syntax:NewlineToken xmi:id="902" sofa="6" begin="363" end="364" tokenNumber="9"/>
+    <syntax:WordToken xmi:id="916" sofa="6" begin="0" end="9" tokenNumber="10" partOfSpeech="NN" capitalization="3" numPosition="0"/>
+    <syntax:WordToken xmi:id="928" sofa="6" begin="10" end="14" tokenNumber="11" partOfSpeech="NN" capitalization="3" numPosition="0"/>
+    <syntax:WordToken xmi:id="957" sofa="6" begin="28" end="37" tokenNumber="14" partOfSpeech="NN" capitalization="3" numPosition="0"/>
+    <syntax:WordToken xmi:id="969" sofa="6" begin="38" end="42" tokenNumber="15" partOfSpeech="NN" capitalization="3" numPosition="0"/>
+    <syntax:WordToken xmi:id="998" sofa="6" begin="56" end="63" tokenNumber="18" partOfSpeech="NN" capitalization="4" numPosition="0"/>
+    <syntax:WordToken xmi:id="1010" sofa="6" begin="64" end="66" tokenNumber="19" partOfSpeech="IN" capitalization="4" numPosition="0"/>
+    <syntax:WordToken xmi:id="1022" sofa="6" begin="67" end="74" tokenNumber="20" partOfSpeech="JJ" capitalization="4" numPosition="0"/>
+    <syntax:WordToken xmi:id="1034" sofa="6" begin="75" end="82" tokenNumber="21" partOfSpeech="NN" capitalization="4" numPosition="0"/>
+    <syntax:WordToken xmi:id="1054" sofa="6" begin="85" end="88" tokenNumber="23" partOfSpeech="DT" capitalization="3" numPosition="0"/>
+    <syntax:WordToken xmi:id="1066" sofa="6" begin="89" end="96" tokenNumber="24" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1078" sofa="6" begin="97" end="99" tokenNumber="25" partOfSpeech="VBZ" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1090" sofa="6" begin="100" end="101" tokenNumber="26" partOfSpeech="DT" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1111" sofa="6" begin="114" end="119" tokenNumber="28" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1123" sofa="6" begin="120" end="123" tokenNumber="29" partOfSpeech="WP" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1135" sofa="6" begin="124" end="126" tokenNumber="30" partOfSpeech="VBZ" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1147" sofa="6" begin="127" end="134" tokenNumber="31" partOfSpeech="JJ" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1159" sofa="6" begin="135" end="144" tokenNumber="32" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1171" sofa="6" begin="145" end="146" tokenNumber="33" partOfSpeech="NN" capitalization="4" numPosition="0"/>
+    <syntax:WordToken xmi:id="1183" sofa="6" begin="147" end="150" tokenNumber="34" partOfSpeech="IN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1204" sofa="6" begin="155" end="160" tokenNumber="36" partOfSpeech="NNS" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1224" sofa="6" begin="162" end="165" tokenNumber="38" partOfSpeech="PRP" capitalization="3" numPosition="0"/>
+    <syntax:WordToken xmi:id="1236" sofa="6" begin="166" end="176" tokenNumber="39" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1248" sofa="6" begin="177" end="184" tokenNumber="40" partOfSpeech="JJ" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1260" sofa="6" begin="185" end="194" tokenNumber="41" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1272" sofa="6" begin="195" end="198" tokenNumber="42" partOfSpeech="CC" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1284" sofa="6" begin="199" end="207" tokenNumber="43" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1296" sofa="6" begin="208" end="212" tokenNumber="44" partOfSpeech="IN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1308" sofa="6" begin="213" end="217" tokenNumber="45" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1320" sofa="6" begin="218" end="220" tokenNumber="46" partOfSpeech="IN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1332" sofa="6" begin="221" end="229" tokenNumber="47" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1352" sofa="6" begin="231" end="233" tokenNumber="49" partOfSpeech="IN" capitalization="3" numPosition="0"/>
+    <syntax:WordToken xmi:id="1381" sofa="6" begin="246" end="249" tokenNumber="52" partOfSpeech="PRP" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1393" sofa="6" begin="250" end="253" tokenNumber="53" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1405" sofa="6" begin="254" end="255" tokenNumber="54" partOfSpeech="DT" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1417" sofa="6" begin="256" end="258" tokenNumber="55" partOfSpeech="NN" capitalization="4" numPosition="0"/>
+    <syntax:WordToken xmi:id="1429" sofa="6" begin="259" end="263" tokenNumber="56" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1441" sofa="6" begin="264" end="269" tokenNumber="57" partOfSpeech="WDT" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1453" sofa="6" begin="270" end="276" tokenNumber="58" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1465" sofa="6" begin="277" end="292" tokenNumber="59" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1485" sofa="6" begin="294" end="302" tokenNumber="61" partOfSpeech="NN" capitalization="4" numPosition="0"/>
+    <syntax:WordToken xmi:id="1497" sofa="6" begin="303" end="309" tokenNumber="62" partOfSpeech="NN" capitalization="4" numPosition="0"/>
+    <syntax:WordToken xmi:id="1517" sofa="6" begin="312" end="314" tokenNumber="64" partOfSpeech="IN" capitalization="3" numPosition="0"/>
+    <syntax:WordToken xmi:id="1529" sofa="6" begin="315" end="318" tokenNumber="65" partOfSpeech="DT" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1541" sofa="6" begin="319" end="324" tokenNumber="66" partOfSpeech="JJ" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1553" sofa="6" begin="325" end="333" tokenNumber="67" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1565" sofa="6" begin="334" end="337" tokenNumber="68" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1585" sofa="6" begin="340" end="343" tokenNumber="70" partOfSpeech="PRP" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1597" sofa="6" begin="344" end="347" tokenNumber="71" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1609" sofa="6" begin="348" end="352" tokenNumber="72" partOfSpeech="VB" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1621" sofa="6" begin="353" end="357" tokenNumber="73" partOfSpeech="DT" capitalization="1" numPosition="0"/>
+    <syntax:WordToken xmi:id="1633" sofa="6" begin="358" end="362" tokenNumber="74" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <syntax:PunctuationToken xmi:id="940" sofa="6" begin="15" end="16" tokenNumber="12" partOfSpeech=":"/>
+    <syntax:PunctuationToken xmi:id="981" sofa="6" begin="43" end="44" tokenNumber="16" partOfSpeech=":"/>
+    <syntax:PunctuationToken xmi:id="1046" sofa="6" begin="83" end="84" tokenNumber="22" partOfSpeech=":"/>
+    <syntax:PunctuationToken xmi:id="1216" sofa="6" begin="160" end="161" tokenNumber="37" partOfSpeech="."/>
+    <syntax:PunctuationToken xmi:id="1344" sofa="6" begin="229" end="230" tokenNumber="48" partOfSpeech="."/>
+    <syntax:PunctuationToken xmi:id="1373" sofa="6" begin="244" end="245" tokenNumber="51" partOfSpeech=","/>
+    <syntax:PunctuationToken xmi:id="1477" sofa="6" begin="292" end="293" tokenNumber="60" partOfSpeech="."/>
+    <syntax:PunctuationToken xmi:id="1509" sofa="6" begin="310" end="311" tokenNumber="63" partOfSpeech=":"/>
+    <syntax:PunctuationToken xmi:id="1577" sofa="6" begin="338" end="339" tokenNumber="69" partOfSpeech=","/>
+    <syntax:PunctuationToken xmi:id="1645" sofa="6" begin="362" end="363" tokenNumber="75" partOfSpeech="."/>
+    <syntax:NumToken xmi:id="948" sofa="6" begin="17" end="27" tokenNumber="13" partOfSpeech="CD" numType="0"/>
+    <syntax:NumToken xmi:id="989" sofa="6" begin="45" end="55" tokenNumber="17" partOfSpeech="CD" numType="0"/>
+    <syntax:NumToken xmi:id="1102" sofa="6" begin="102" end="113" tokenNumber="27" partOfSpeech="CD" numType="0"/>
+    <syntax:NumToken xmi:id="1195" sofa="6" begin="151" end="154" tokenNumber="35" partOfSpeech="CD" numType="0"/>
+    <syntax:NumToken xmi:id="1364" sofa="6" begin="234" end="244" tokenNumber="50" partOfSpeech="CD" numType="0"/>
+    <textspan:Segment xmi:id="1659" sofa="6" begin="0" end="27" id="5.15" value="admission_date"/>
+    <textspan:Segment xmi:id="1671" sofa="6" begin="28" end="55" id="5.16.35.35" value="date_of_discharge"/>
+    <textspan:Segment xmi:id="1683" sofa="6" begin="56" end="293" id="5.28" value="history_present_illness"/>
+    <textspan:Segment xmi:id="1695" sofa="6" begin="294" end="363" id="5.32" value="hospital_course"/>
+    <type2:MedTimex3 xmi:id="1707" sofa="6" begin="0" end="14" firstTokId="10" allTokIds="BEGIN&lt;--&gt;10&lt;--&gt;11" timexId="t9" timexInstance="0" contextSentence="1665" timexType="DATE" timexValue="2013-01-22" foundByRule="date_r26i-explicit" timexQuant="" timexFreq="" timexMod=""/>
+    <type2:MedTimex3 xmi:id="1723" sofa="6" begin="17" end="27" firstTokId="0" allTokIds="" timexId="t10" timexInstance="0" contextSentence="768" timexType="DATE" timexValue="2013-01-22" foundByRule="date_r0c-explicit" timexQuant="" timexFreq="" timexMod=""/>
+    <type2:MedTimex3 xmi:id="1835" sofa="6" begin="45" end="55" firstTokId="0" allTokIds="" timexId="t17" timexInstance="0" contextSentence="808" timexType="DATE" timexValue="2013-01-27" foundByRule="date_r0c-explicit" timexQuant="" timexFreq="" timexMod=""/>
+    <type2:MedTimex3 xmi:id="1915" sofa="6" begin="151" end="160" firstTokId="35" allTokIds="BEGIN&lt;--&gt;35&lt;--&gt;36" timexId="t22" timexInstance="0" contextSentence="848" timexType="DURATION" timexValue="P10Y" foundByRule="duration_r1a" timexQuant="" timexFreq="" timexMod=""/>
+    <type2:MedTimex3 xmi:id="1979" sofa="6" begin="234" end="244" firstTokId="50" allTokIds="BEGIN&lt;--&gt;50" timexId="t26" timexInstance="0" contextSentence="876" timexType="DATE" timexValue="2013-01-23" foundByRule="date_r0c-explicit" timexQuant="" timexFreq="" timexMod=""/>
+    <type2:MedTimex3 xmi:id="2075" sofa="6" begin="315" end="337" firstTokId="65" allTokIds="BEGIN&lt;--&gt;65&lt;--&gt;66&lt;--&gt;67&lt;--&gt;68" timexId="t32" timexInstance="0" contextSentence="910" timexType="DATE" timexValue="2013-01-24" foundByRule="date_r28d-explicit" timexQuant="" timexFreq="" timexMod=""/>
+    <cas:View sofa="6" members="1 768 808 848 862 876 910 1665 1677 1689 1701 565 570 575 580 585 590 595 600 605 610 615 620 625 630 635 640 645 650 655 660 665 670 675 680 685 690 695 700 705 710 715 720 725 730 735 740 760 780 800 820 840 854 868 882 902 916 928 957 969 998 1010 1022 1034 1054 1066 1078 1090 1111 1123 1135 1147 1159 1171 1183 1204 1224 1236 1248 1260 1272 1284 1296 1308 1320 1332 1352 1381 1393 1405 1417 1429 1441 1453 1465 1485 1497 1517 1529 1541 1553 1565 1585 1597 1609 1621 1633 940 981 1046 1216 1344 1373 1477 1509 1577 1645 948 989 1102 1195 1364 1659 1671 1683 1695 1707 1723 1835 1915 1979 2075"/>
+</xmi:XMI>

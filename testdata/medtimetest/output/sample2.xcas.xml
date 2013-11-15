@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CAS version="2">
+    <uima.cas.Sofa _indexed="0" _id="6" sofaNum="1" sofaID="_InitialView" mimeType="text" sofaString="The patient is a 45-year-old woman who is chronic hepatitis B for ten years.&#10;She complained extreme tiredness and suffered from loss of appetite.&#10;In 01/23/2013, she had a CT scan which showed hepatocirrhosis.&#10;On the third hospital day , she did have some pain.&#10;"/>
+    <uima.tcas.DocumentAnnotation _indexed="1" _id="1" _ref_sofa="6" begin="0" end="261" language="en"/>
+    <org.ohnlp.typesystem.type.textspan.Sentence _indexed="1" _id="590" _ref_sofa="6" begin="0" end="76" id="DocBegin:0" _ref_segment="1205"/>
+    <org.ohnlp.typesystem.type.textspan.Sentence _indexed="1" _id="604" _ref_sofa="6" begin="77" end="145" id="DocBegin:1" _ref_segment="1205"/>
+    <org.ohnlp.typesystem.type.textspan.Sentence _indexed="1" _id="618" _ref_sofa="6" begin="146" end="208" id="DocBegin:2" _ref_segment="1205"/>
+    <org.ohnlp.typesystem.type.textspan.Sentence _indexed="1" _id="632" _ref_sofa="6" begin="209" end="260" id="DocBegin:3" _ref_segment="1205"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="437" _ref_sofa="6" begin="0" end="11" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="442" _ref_sofa="6" begin="12" end="14" chunkType="VP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="447" _ref_sofa="6" begin="15" end="34" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="452" _ref_sofa="6" begin="35" end="38" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="457" _ref_sofa="6" begin="39" end="41" chunkType="VP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="462" _ref_sofa="6" begin="42" end="61" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="467" _ref_sofa="6" begin="62" end="65" chunkType="PP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="472" _ref_sofa="6" begin="66" end="75" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="477" _ref_sofa="6" begin="77" end="80" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="482" _ref_sofa="6" begin="81" end="91" chunkType="VP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="487" _ref_sofa="6" begin="92" end="109" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="492" _ref_sofa="6" begin="114" end="122" chunkType="VP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="497" _ref_sofa="6" begin="123" end="127" chunkType="PP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="502" _ref_sofa="6" begin="128" end="132" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="507" _ref_sofa="6" begin="133" end="135" chunkType="PP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="512" _ref_sofa="6" begin="136" end="144" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="517" _ref_sofa="6" begin="146" end="148" chunkType="PP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="522" _ref_sofa="6" begin="149" end="159" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="527" _ref_sofa="6" begin="161" end="164" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="532" _ref_sofa="6" begin="165" end="168" chunkType="VP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="537" _ref_sofa="6" begin="169" end="178" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="542" _ref_sofa="6" begin="179" end="184" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="547" _ref_sofa="6" begin="185" end="191" chunkType="VP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="552" _ref_sofa="6" begin="192" end="207" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="557" _ref_sofa="6" begin="209" end="211" chunkType="PP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="562" _ref_sofa="6" begin="212" end="234" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="567" _ref_sofa="6" begin="237" end="240" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="572" _ref_sofa="6" begin="241" end="249" chunkType="VP"/>
+    <org.ohnlp.typesystem.type.syntax.Chunk _indexed="1" _id="577" _ref_sofa="6" begin="250" end="259" chunkType="NP"/>
+    <org.ohnlp.typesystem.type.syntax.NewlineToken _indexed="1" _id="582" _ref_sofa="6" begin="76" end="77" tokenNumber="0"/>
+    <org.ohnlp.typesystem.type.syntax.NewlineToken _indexed="1" _id="596" _ref_sofa="6" begin="145" end="146" tokenNumber="1"/>
+    <org.ohnlp.typesystem.type.syntax.NewlineToken _indexed="1" _id="610" _ref_sofa="6" begin="208" end="209" tokenNumber="2"/>
+    <org.ohnlp.typesystem.type.syntax.NewlineToken _indexed="1" _id="624" _ref_sofa="6" begin="260" end="261" tokenNumber="3"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="638" _ref_sofa="6" begin="0" end="3" tokenNumber="4" partOfSpeech="DT" capitalization="3" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="650" _ref_sofa="6" begin="4" end="11" tokenNumber="5" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="662" _ref_sofa="6" begin="12" end="14" tokenNumber="6" partOfSpeech="VBZ" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="674" _ref_sofa="6" begin="15" end="16" tokenNumber="7" partOfSpeech="DT" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="695" _ref_sofa="6" begin="29" end="34" tokenNumber="9" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="707" _ref_sofa="6" begin="35" end="38" tokenNumber="10" partOfSpeech="WP" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="719" _ref_sofa="6" begin="39" end="41" tokenNumber="11" partOfSpeech="VBZ" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="731" _ref_sofa="6" begin="42" end="49" tokenNumber="12" partOfSpeech="JJ" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="743" _ref_sofa="6" begin="50" end="59" tokenNumber="13" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="755" _ref_sofa="6" begin="60" end="61" tokenNumber="14" partOfSpeech="NN" capitalization="4" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="767" _ref_sofa="6" begin="62" end="65" tokenNumber="15" partOfSpeech="IN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="788" _ref_sofa="6" begin="70" end="75" tokenNumber="17" partOfSpeech="NNS" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="808" _ref_sofa="6" begin="77" end="80" tokenNumber="19" partOfSpeech="PRP" capitalization="3" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="820" _ref_sofa="6" begin="81" end="91" tokenNumber="20" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="832" _ref_sofa="6" begin="92" end="99" tokenNumber="21" partOfSpeech="JJ" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="844" _ref_sofa="6" begin="100" end="109" tokenNumber="22" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="856" _ref_sofa="6" begin="110" end="113" tokenNumber="23" partOfSpeech="CC" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="868" _ref_sofa="6" begin="114" end="122" tokenNumber="24" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="880" _ref_sofa="6" begin="123" end="127" tokenNumber="25" partOfSpeech="IN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="892" _ref_sofa="6" begin="128" end="132" tokenNumber="26" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="904" _ref_sofa="6" begin="133" end="135" tokenNumber="27" partOfSpeech="IN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="916" _ref_sofa="6" begin="136" end="144" tokenNumber="28" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="936" _ref_sofa="6" begin="146" end="148" tokenNumber="30" partOfSpeech="IN" capitalization="3" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="965" _ref_sofa="6" begin="161" end="164" tokenNumber="33" partOfSpeech="PRP" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="977" _ref_sofa="6" begin="165" end="168" tokenNumber="34" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="989" _ref_sofa="6" begin="169" end="170" tokenNumber="35" partOfSpeech="DT" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1001" _ref_sofa="6" begin="171" end="173" tokenNumber="36" partOfSpeech="NN" capitalization="4" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1013" _ref_sofa="6" begin="174" end="178" tokenNumber="37" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1025" _ref_sofa="6" begin="179" end="184" tokenNumber="38" partOfSpeech="WDT" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1037" _ref_sofa="6" begin="185" end="191" tokenNumber="39" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1049" _ref_sofa="6" begin="192" end="207" tokenNumber="40" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1069" _ref_sofa="6" begin="209" end="211" tokenNumber="42" partOfSpeech="IN" capitalization="3" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1081" _ref_sofa="6" begin="212" end="215" tokenNumber="43" partOfSpeech="DT" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1093" _ref_sofa="6" begin="216" end="221" tokenNumber="44" partOfSpeech="JJ" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1105" _ref_sofa="6" begin="222" end="230" tokenNumber="45" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1117" _ref_sofa="6" begin="231" end="234" tokenNumber="46" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1137" _ref_sofa="6" begin="237" end="240" tokenNumber="48" partOfSpeech="PRP" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1149" _ref_sofa="6" begin="241" end="244" tokenNumber="49" partOfSpeech="VBD" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1161" _ref_sofa="6" begin="245" end="249" tokenNumber="50" partOfSpeech="VB" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1173" _ref_sofa="6" begin="250" end="254" tokenNumber="51" partOfSpeech="DT" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.WordToken _indexed="1" _id="1185" _ref_sofa="6" begin="255" end="259" tokenNumber="52" partOfSpeech="NN" capitalization="1" numPosition="0"/>
+    <org.ohnlp.typesystem.type.syntax.NumToken _indexed="1" _id="686" _ref_sofa="6" begin="17" end="28" tokenNumber="8" partOfSpeech="CD" numType="0"/>
+    <org.ohnlp.typesystem.type.syntax.NumToken _indexed="1" _id="779" _ref_sofa="6" begin="66" end="69" tokenNumber="16" partOfSpeech="CD" numType="0"/>
+    <org.ohnlp.typesystem.type.syntax.NumToken _indexed="1" _id="948" _ref_sofa="6" begin="149" end="159" tokenNumber="31" partOfSpeech="CD" numType="0"/>
+    <org.ohnlp.typesystem.type.syntax.PunctuationToken _indexed="1" _id="800" _ref_sofa="6" begin="75" end="76" tokenNumber="18" partOfSpeech="."/>
+    <org.ohnlp.typesystem.type.syntax.PunctuationToken _indexed="1" _id="928" _ref_sofa="6" begin="144" end="145" tokenNumber="29" partOfSpeech="."/>
+    <org.ohnlp.typesystem.type.syntax.PunctuationToken _indexed="1" _id="957" _ref_sofa="6" begin="159" end="160" tokenNumber="32" partOfSpeech=","/>
+    <org.ohnlp.typesystem.type.syntax.PunctuationToken _indexed="1" _id="1061" _ref_sofa="6" begin="207" end="208" tokenNumber="41" partOfSpeech="."/>
+    <org.ohnlp.typesystem.type.syntax.PunctuationToken _indexed="1" _id="1129" _ref_sofa="6" begin="235" end="236" tokenNumber="47" partOfSpeech=","/>
+    <org.ohnlp.typesystem.type.syntax.PunctuationToken _indexed="1" _id="1197" _ref_sofa="6" begin="259" end="260" tokenNumber="53" partOfSpeech="."/>
+    <org.ohnlp.typesystem.type.textspan.Segment _indexed="1" _id="1205" _ref_sofa="6" begin="0" end="260" id="DocBegin" value="DocBegin"/>
+    <org.ohnlp.medtime.type.MedTimex3 _indexed="1" _id="1211" _ref_sofa="6" begin="66" end="75" firstTokId="16" allTokIds="BEGIN&lt;--&gt;16&lt;--&gt;17" timexId="t33" timexInstance="0" _ref_contextSentence="590" timexType="DURATION" timexValue="P10Y" foundByRule="duration_r1a" timexQuant="" timexFreq="" timexMod=""/>
+    <org.ohnlp.medtime.type.MedTimex3 _indexed="1" _id="1275" _ref_sofa="6" begin="149" end="159" firstTokId="31" allTokIds="BEGIN&lt;--&gt;31" timexId="t37" timexInstance="0" _ref_contextSentence="618" timexType="DATE" timexValue="2013-01-23" foundByRule="date_r0c-explicit" timexQuant="" timexFreq="" timexMod=""/>
+    <org.ohnlp.medtime.type.MedTimex3 _indexed="1" _id="1371" _ref_sofa="6" begin="212" end="234" firstTokId="43" allTokIds="BEGIN&lt;--&gt;43&lt;--&gt;44&lt;--&gt;45&lt;--&gt;46" timexId="t43" timexInstance="0" _ref_contextSentence="632" timexType="DATE" timexValue="2013-01-25" foundByRule="date_r28d-explicit" timexQuant="" timexFreq="" timexMod=""/>
+</CAS>
