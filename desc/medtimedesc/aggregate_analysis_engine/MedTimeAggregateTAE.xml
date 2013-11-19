@@ -21,8 +21,8 @@
     <delegateAnalysisEngine key="SentenceDetectorAE">
       <import name="org.ohnlp.opennlp.aes.SentenceDetectorAE"/>
     </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="PosTaggerAE">
-      <import name="org.ohnlp.opennlp.aes.PosTaggerAE"/>
+    <delegateAnalysisEngine key="POSTaggerAE">
+      <import name="org.ohnlp.opennlp.aes.POSTaggerAE"/>
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
@@ -128,7 +128,7 @@
       <fixedFlow>
         <node>SentenceDetectorAE</node>
         <node>TokenizerAE</node>
-        <node>PosTaggerAE</node>
+        <node>POSTaggerAE</node>
         <node>ChunkerAE</node>
         <node>LineSentenceDetectorAE</node>
         <node>RuleSectionAE</node>
@@ -220,7 +220,7 @@
         <resourceName>TokenModel</resourceName>
       </externalResourceBinding>
       <externalResourceBinding>
-        <key>PosTaggerAE/opennlp.uima.ModelName</key>
+        <key>POSTaggerAE/opennlp.uima.ModelName</key>
         <resourceName>PosModel</resourceName>
       </externalResourceBinding>
       <externalResourceBinding>
