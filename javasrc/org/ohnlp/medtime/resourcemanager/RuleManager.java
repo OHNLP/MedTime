@@ -346,6 +346,7 @@ public class RuleManager extends GenericResourceManager {
 						}
 					}
 				}
+				sc.close();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 
 import org.ohnlp.medtime.util.Logger;
 import org.ohnlp.medtime.type.MedTimex3;
@@ -49,11 +50,9 @@ public class RemoveInvalidTimexProcessor extends GenericProcessor {
 		super();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void process(JCas jcas) {
 
-		FSIterator iterTimex = jcas.getAnnotationIndex(MedTimex3.type)
-				.iterator();
+		FSIterator<? extends Annotation> iterTimex = jcas.getAnnotationIndex(MedTimex3.type).iterator();
 		List<MedTimex3> linearDates = new ArrayList<MedTimex3>();
 
 		while (iterTimex.hasNext()) {
@@ -97,8 +96,7 @@ public class RemoveInvalidTimexProcessor extends GenericProcessor {
 			}
 		}
 
-			FSIterator timexIter1 = jcas.getAnnotationIndex(MedTimex3.type)
-					.iterator();
+			FSIterator<? extends Annotation> timexIter1 = jcas.getAnnotationIndex(MedTimex3.type).iterator();
 			HashSet<MedTimex3> hsTimexesToRemove = new HashSet<MedTimex3>();
 
 			while (timexIter1.hasNext()) {

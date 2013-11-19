@@ -43,6 +43,7 @@ import org.apache.uima.collection.CasConsumer_ImplBase;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JFSIndexRepository;
 import org.apache.uima.jcas.cas.TOP;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceProcessException;
 import org.ohnlp.typesystem.type.structured.Document;
@@ -95,7 +96,6 @@ public class MedTimeWriter extends CasConsumer_ImplBase {
 	}
 	
 	
-		@SuppressWarnings("unchecked")
 	public void printTimexAnnotationsInline(JCas jcas){
 			
 	JFSIndexRepository indexes = jcas.getJFSIndexRepository();
@@ -125,8 +125,8 @@ public class MedTimeWriter extends CasConsumer_ImplBase {
 	    int endposition   = doctext.length();
 	     
 		// get timex index
-		FSIndex indexTimex   = jcas.getAnnotationIndex(MedTimex3.type);
-		FSIterator iterTimex = indexTimex.iterator();
+		FSIndex<? extends Annotation> indexTimex   = jcas.getAnnotationIndex(MedTimex3.type);
+		FSIterator<? extends Annotation> iterTimex = indexTimex.iterator();
 		
 		int tid=0;
 		while (iterTimex.hasNext()){

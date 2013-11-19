@@ -113,7 +113,7 @@ public class NormalizationManager extends GenericResourceManager {
 				Scanner sc = new Scanner(new File(hmResourcesNormalization.get(resource)));
 				while (sc.hasNextLine()) {
 					String line = sc.nextLine();
-				if (!(line.startsWith("//"))) {
+					if (!(line.startsWith("//"))) {
 						boolean correctLine = false;
 						// check each line for the normalization format (defined in paReadNormalizations)
 						for (Object r : Toolbox.findMatches(paReadNormalizations, line)) {
@@ -133,6 +133,7 @@ public class NormalizationManager extends GenericResourceManager {
 						}
 					}
 				}
+				sc.close();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

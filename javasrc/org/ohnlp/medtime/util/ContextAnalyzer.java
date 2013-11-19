@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 
 import org.ohnlp.medtime.resourcemanager.NormalizationManager;
 import org.ohnlp.medtime.resourcemanager.RePatternManager;
@@ -209,7 +210,7 @@ public class ContextAnalyzer {
 		int tid    = 0;
 
 		// Get the sentence
-		FSIterator iterSentence = jcas.getAnnotationIndex(Sentence.type).iterator();
+		FSIterator<? extends Annotation> iterSentence = jcas.getAnnotationIndex(Sentence.type).iterator();
 		Sentence s = new Sentence(jcas);
 		while (iterSentence.hasNext()) {
 			s = (Sentence) iterSentence.next();
@@ -221,7 +222,7 @@ public class ContextAnalyzer {
 
 		// Get the tokens
 		TreeMap<Integer, BaseToken> tmToken = new TreeMap<Integer, BaseToken>();
-		FSIterator iterToken = jcas.getAnnotationIndex(BaseToken.type).subiterator(s);
+		FSIterator<? extends Annotation> iterToken = jcas.getAnnotationIndex(BaseToken.type).subiterator(s);
 		while (iterToken.hasNext()) {
 			BaseToken token = (BaseToken) iterToken.next();
 			tmToken.put(token.getEnd(), token);
@@ -331,7 +332,7 @@ public class ContextAnalyzer {
 		String lastTense = "";
 
 		// Get the sentence
-		FSIterator iterSentence = jcas.getAnnotationIndex(Sentence.type).iterator();
+		FSIterator<? extends Annotation> iterSentence = jcas.getAnnotationIndex(Sentence.type).iterator();
 		Sentence s = new Sentence(jcas);
 		while (iterSentence.hasNext()) {
 			s = (Sentence) iterSentence.next();
@@ -343,7 +344,7 @@ public class ContextAnalyzer {
 
 		// Get the tokens
 		TreeMap<Integer, BaseToken> tmToken = new TreeMap<Integer, BaseToken>();
-		FSIterator iterToken = jcas.getAnnotationIndex(BaseToken.type).subiterator(s);
+		FSIterator<? extends Annotation> iterToken = jcas.getAnnotationIndex(BaseToken.type).subiterator(s);
 		while (iterToken.hasNext()) {
 			BaseToken token= (BaseToken) iterToken.next();
 			tmToken.put(token.getEnd(), token);

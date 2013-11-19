@@ -27,6 +27,7 @@ import java.util.HashSet;
 
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 
 import org.ohnlp.medtime.util.Logger;
 import org.ohnlp.medtime.type.MedTimex3;
@@ -43,17 +44,14 @@ public class RemoveOverlapTimexProcessor extends GenericProcessor {
 	public RemoveOverlapTimexProcessor() {
 		super();
 	}
-	@SuppressWarnings("unchecked")
 	public void process(JCas jcas) {
 
-		FSIterator timexIter1 = jcas.getAnnotationIndex(MedTimex3.type)
-				.iterator();
+		FSIterator<? extends Annotation> timexIter1 = jcas.getAnnotationIndex(MedTimex3.type).iterator();
 		HashSet<MedTimex3> hsTimexesToRemove = new HashSet<MedTimex3>();
 
 		while (timexIter1.hasNext()) {
 			MedTimex3 t1 = (MedTimex3) timexIter1.next();
-			FSIterator timexIter2 = jcas.getAnnotationIndex(MedTimex3.type)
-					.iterator();
+			FSIterator<? extends Annotation> timexIter2 = jcas.getAnnotationIndex(MedTimex3.type).iterator();
 
 			while (timexIter2.hasNext()) {
 				MedTimex3 t2 = (MedTimex3) timexIter2.next();

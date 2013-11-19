@@ -392,7 +392,6 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 
 	// -----
 
-	@SuppressWarnings("unchecked")
 	public boolean updateTypes(JCas jcas) {
 		boolean changed = false;
 		List<MedTimex3> linearDates = new ArrayList<MedTimex3>();

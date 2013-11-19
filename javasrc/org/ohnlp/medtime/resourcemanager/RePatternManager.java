@@ -113,6 +113,7 @@ public class RePatternManager extends GenericResourceManager {
 						}
 					}
 				}
+				sc.close();
 			}
 			////////////////////////////
 			// FINALIZE THE REPATTERN //

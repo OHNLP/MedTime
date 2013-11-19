@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 
 import org.ohnlp.medtime.type.MedTimex3;
 import org.ohnlp.medtime.util.Logger;
@@ -64,12 +65,11 @@ public class HolidayProcessor extends GenericProcessor {
 	 * This function replaces function calls from the resource files with their TIMEX value.
 	 * @param jcas
 	 */
-	@SuppressWarnings("unchecked")
 	public void evaluateCalculationFunctions(JCas jcas) {
 
 		// build up a list with all found TIMEX expressions
 		List<MedTimex3> linearDates = new ArrayList<MedTimex3>();
-		FSIterator iterTimex = jcas.getAnnotationIndex(MedTimex3.type).iterator();
+		FSIterator<? extends Annotation> iterTimex = jcas.getAnnotationIndex(MedTimex3.type).iterator();
 
 		// Create List of all Timexes of types "date" and "time"
 		while (iterTimex.hasNext()) {

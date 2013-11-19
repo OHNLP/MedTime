@@ -67,21 +67,23 @@ public abstract class GenericResourceManager {
 
 		HashMap<String, String> hmResources = new HashMap<String, String>();
 		
+		Scanner sc = null;
 		try{
 			String resourcefile=RESOURCEDIR+"/used_resources.txt";
-			Scanner sc = new Scanner(new File(resourcefile));
+			sc = new Scanner(new File(resourcefile));
 	 		while (sc.hasNextLine()) {
-			String line = sc.nextLine();
-			Pattern paResource = Pattern.compile(REPORTFORMAT+"/"+resourceType+"/resources_"+resourceType+"_"+"(.*?)\\.txt");
-			for (Object r : Toolbox.findMatches(paResource, line)){
-					MatchResult ro=(MatchResult) r;
-					String foundResource  = ro.group(1);
-					String pathToResource = RESOURCEDIR+"/"+REPORTFORMAT+"/"+resourceType+"/resources_"+resourceType+"_"+foundResource+".txt";
-					System.out.println(pathToResource);
-					
-					hmResources.put(foundResource, pathToResource);
-				}
+	 			String line = sc.nextLine();
+	 			Pattern paResource = Pattern.compile(REPORTFORMAT+"/"+resourceType+"/resources_"+resourceType+"_"+"(.*?)\\.txt");
+	 			for (Object r : Toolbox.findMatches(paResource, line)){
+	 				MatchResult ro=(MatchResult) r;
+	 				String foundResource  = ro.group(1);
+	 				String pathToResource = RESOURCEDIR+"/"+REPORTFORMAT+"/"+resourceType+"/resources_"+resourceType+"_"+foundResource+".txt";
+	 				System.out.println(pathToResource);
+
+	 				hmResources.put(foundResource, pathToResource);
+	 			}
 			}
+	 		sc.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			Logger.printError(component, "Failed to read a resource from used_resources.txt.");

@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 
 import org.ohnlp.medtime.util.Logger;
 import org.ohnlp.medtime.type.MedTimex3;
@@ -45,12 +46,10 @@ public class RemoveDateIfTimeProcessor extends GenericProcessor {
 		super();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void process(JCas jcas) {
 		List<MedTimex3> linearDates = new ArrayList<MedTimex3>();
 
-		FSIterator iterTimex = jcas.getAnnotationIndex(MedTimex3.type)
-				.iterator();
+		FSIterator<? extends Annotation> iterTimex = jcas.getAnnotationIndex(MedTimex3.type).iterator();
 
 		while (iterTimex.hasNext()) {
 			MedTimex3 timex = (MedTimex3) iterTimex.next();
