@@ -35,6 +35,7 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.cas.FSIterator;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import org.ohnlp.medtime.resourcemanager.GenericResourceManager;
@@ -88,15 +89,15 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 	private MedTimex3 admdate;
 	private MedTimex3 disdate;
 
-	// lowercase will tranform the sentence to lower case for pattern matching
+	// lowercase will transform the sentence to lower case for pattern matching
 	private Boolean lowerCase=true;
 
 	/**
 	 * @see AnalysisComponent#initialize(UimaContext)
 	 */
 	@SuppressWarnings("unused")
-	public void initialize(UimaContext aContext)
-			throws ResourceInitializationException {
+	public void initialize(UimaContext aContext) throws ResourceInitializationException {
+		
 		super.initialize(aContext);
 
 		// ///////////////////////////////
@@ -109,12 +110,10 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 		// GET CONFIGURATION PARAMETERS //
 		// ////////////////////////////////
 		reportFormat = (String) aContext.getConfigParameterValue(PARAM_REPORTFORMAT);
-		resource_dir = (String) aContext
-				.getConfigParameterValue(PARAM_RESOURCE_DIR);
+		resource_dir = (String) aContext.getConfigParameterValue(PARAM_RESOURCE_DIR);
 		find_dates = (Boolean) aContext.getConfigParameterValue(PARAM_DATE);
 		find_times = (Boolean) aContext.getConfigParameterValue(PARAM_TIME);
-		find_durations = (Boolean) aContext
-				.getConfigParameterValue(PARAM_DURATION);
+		find_durations = (Boolean) aContext.getConfigParameterValue(PARAM_DURATION);
 		find_sets = (Boolean) aContext.getConfigParameterValue(PARAM_SET);
 
 		// ////////////////////////////////////////
@@ -154,43 +153,36 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 	/**
 	 * @see JCasAnnotator_ImplBase#process(JCas)
 	 */
-	@SuppressWarnings("unchecked")
 	public void process(JCas jcas) {
 		
 		RuleManager rulem = RuleManager.getInstance();
 		// //////////////////////////////////////////
 		// CHECK SENTENCE BY SENTENCE FOR TIMEXES //
 		// //////////////////////////////////////////
-		FSIterator sentIter = jcas.getAnnotationIndex(Sentence.type).iterator();
+		FSIterator<? extends Annotation> sentIter = jcas.getAnnotationIndex(Sentence.type).iterator();
 		while (sentIter.hasNext()) {
 			Sentence s = (Sentence) sentIter.next();
 			if (find_dates) {
-				findTimexes("DATE", rulem.getHmDatePattern(), rulem
-						.getHmDateOffset(), rulem.getHmDateNormalization(),
-						rulem.getHmDateQuant(), s, jcas);
+				findTimexes("DATE", rulem.getHmDatePattern(), rulem.getHmDateOffset(), 
+						rulem.getHmDateNormalization(), rulem.getHmDateQuant(), s, jcas);
 			}
 			if (find_times) {
-				findTimexes("TIME", rulem.getHmTimePattern(), rulem
-						.getHmTimeOffset(), rulem.getHmTimeNormalization(),
-						rulem.getHmTimeQuant(), s, jcas);
+				findTimexes("TIME", rulem.getHmTimePattern(), rulem.getHmTimeOffset(), 
+						rulem.getHmTimeNormalization(),	rulem.getHmTimeQuant(), s, jcas);
 			}
 			if (find_durations) {
-				findTimexes("DURATION", rulem.getHmDurationPattern(), rulem
-						.getHmDurationOffset(), rulem
-						.getHmDurationNormalization(), rulem
-						.getHmDurationQuant(), s, jcas);
+				findTimexes("DURATION", rulem.getHmDurationPattern(), rulem.getHmDurationOffset(), 
+						rulem.getHmDurationNormalization(), rulem.getHmDurationQuant(), s, jcas);
 			}
 			if (find_sets) {
-				findTimexes("SET", rulem.getHmSetPattern(), rulem
-						.getHmSetOffset(), rulem.getHmSetNormalization(), rulem
-						.getHmSetQuant(), s, jcas);
+				findTimexes("SET", rulem.getHmSetPattern(), rulem.getHmSetOffset(), 
+						rulem.getHmSetNormalization(), rulem.getHmSetQuant(), s, jcas);
 			}
 		}
 
 	
 		// ///////////////////////////////////////////////////////////////////////////////
-		// SUBPROCESSOR CONFIGURATION. REGISTER YOUR OWN PROCESSORS HERE FOR
-		// EXECUTION //
+		// SUBPROCESSOR CONFIGURATION. REGISTER YOUR OWN PROCESSORS HERE FOR EXECUTION //
 		// ///////////////////////////////////////////////////////////////////////////////
 		ProcessorManager pm = ProcessorManager.getInstance();
 		pm.registerProcessor("org.ohnlp.medtime.ae.HolidayProcessor");
@@ -218,7 +210,6 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 	 * @param foundByRule
 	 * @param jcas
 	 */
-	@SuppressWarnings("unchecked")
 	public void addTimexAnnotation(String timexType, int begin, int end,
 			Sentence sentence, String timexValue, String timexQuant,
 			String timexFreq, String timexMod, String timexId,
@@ -229,8 +220,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 		annotation.setEnd(end);
 		annotation.setContextSentence(sentence);
 	
-		FSIterator iterToken = jcas.getAnnotationIndex(BaseToken.type)
-				.subiterator(sentence);
+		FSIterator<? extends Annotation> iterToken = jcas.getAnnotationIndex(BaseToken.type).subiterator(sentence);
 		String allTokIds = "";
 		while (iterToken.hasNext()) {
 			BaseToken tok = (BaseToken) iterToken.next();
@@ -243,10 +233,8 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 				allTokIds = allTokIds + "<-->" + tok.getTokenNumber();
 			}
 		}
-		if (timexType.equals("DATE")
-				&& (timexValue.indexOf("hour") >= 0
-						|| timexValue.indexOf("minute") >= 0 || timexValue
-						.indexOf("second") >= 0)) {
+		if (timexType.equals("DATE") &&
+			(timexValue.indexOf("hour") >= 0 || timexValue.indexOf("minute") >= 0 || timexValue.indexOf("second") >= 0)) {
 			timexValue = "UNDEF-this-day";
 		}
 		annotation.setAllTokIds(allTokIds);
@@ -281,9 +269,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 		}
 		annotation.addToIndexes();
 		if (annotation.getContextSentence().getSegment().getValue().indexOf("date") >= 0) {
-			for (Object mr : Toolbox.findMatches(Pattern
-					.compile("([0-9][0-9])-([0-9]?[0-9])-"), annotation
-					.getTimexValue())) {
+			for (Object mr : Toolbox.findMatches(Pattern.compile("([0-9][0-9])-([0-9]?[0-9])-"), annotation.getTimexValue())) {
 				cYear = Integer.parseInt((String) ((MatchResult) mr).group(1));
 				cMonth = Integer.parseInt((String) ((MatchResult) mr).group(2));
 			}
@@ -305,17 +291,12 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 	 * 
 	 * @param jcas
 	 */
-
-	
 	//This is specifically for operation day rules
 	// POD 3
-	
-	@SuppressWarnings("unchecked")
 	public void processOPValues(JCas jcas) {
 		List<MedTimex3> linearDates = new ArrayList<MedTimex3>();
-		FSIterator iterTimex = jcas.getAnnotationIndex(MedTimex3.type)
-				.iterator();
-	//	System.out.println(opdate);
+		FSIterator<? extends Annotation> iterTimex = jcas.getAnnotationIndex(MedTimex3.type).iterator();
+		//	System.out.println(opdate);
 
 		// Create List of all Timexes of types "date" and "time"
 		while (iterTimex.hasNext()) {
@@ -327,10 +308,8 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 		for (int i = 0; i < linearDates.size(); i++) {
 			MedTimex3 t_i = (MedTimex3) linearDates.get(i);
 			if (t_i.getContextSentence().getSegment().getValue().indexOf("hospital_course") >= 0
-					&& !opdate.getTimexValue().matches(
-							"[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]")) {
-				String lmDay = ContextAnalyzer.getLastMentionedX(linearDates,
-						i, "day");
+					&& !opdate.getTimexValue().matches("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]")) {
+				String lmDay = ContextAnalyzer.getLastMentionedX(linearDates, i, "day");
 				if (lmDay.matches("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]"))
 					opdate.setTimexValue(lmDay);
 				else
@@ -343,24 +322,22 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 			if (t_i.getTimexValue().startsWith("OPDATE")) {
 				String[] parts = t_i.getTimexValue().split("\\-");
 				int addDay = 0;
-				if (parts[1].equals("PLUS"))
+				if (parts[1].equals("PLUS")) {
 					addDay = Integer.parseInt(parts[2]);
+				}
 				t_i.removeFromIndexes();
-				t_i.setTimexValue(DateCalculator.getXNextDay(opdate
-						.getTimexValue(), addDay));
+				t_i.setTimexValue(DateCalculator.getXNextDay(opdate.getTimexValue(), addDay));
 				t_i.addToIndexes();
 			}
 		}	
 	}
 
-	@SuppressWarnings("unchecked")
 	public void findAnchorDates(JCas jcas) {
 		admdate = null;
 		disdate = null;
 		opdate = null;
 		List<MedTimex3> linearDates = new ArrayList<MedTimex3>();
-		FSIterator iterTimex = jcas.getAnnotationIndex(MedTimex3.type)
-				.iterator();
+		FSIterator<? extends Annotation> iterTimex = jcas.getAnnotationIndex(MedTimex3.type).iterator();
 
 		// Create List of all Timexes of types "date" and "time"
 		while (iterTimex.hasNext()) {
@@ -388,7 +365,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 			}
 		}
 		// adhoc to avoid error in i2b2
-		if(admdate==null) {
+		if (admdate==null && linearDates.size()>0) {
 			admdate=linearDates.get(0);
 			//System.out.println("No admission date");
 		}
@@ -403,9 +380,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 				break;
 			String myText = t.getContextSentence().getCoveredText();
 			if (t.getContextSentence().getSegment().getValue().startsWith("hospital_course")) {
-				if (opdate == null
-						&& (myText.indexOf("underwent") >= 0 || myText
-								.indexOf("operat") >= 0)) {
+				if (opdate == null && (myText.indexOf("underwent") >= 0 || myText.indexOf("operat") >= 0)) {
 					opdate = t;
 					break;
 				}
@@ -422,8 +397,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 		boolean changed = false;
 		List<MedTimex3> linearDates = new ArrayList<MedTimex3>();
 		RuleManager rulem = RuleManager.getInstance();
-		FSIterator iterTimex = jcas.getAnnotationIndex(MedTimex3.type)
-				.iterator();
+		FSIterator<? extends Annotation> iterTimex = jcas.getAnnotationIndex(MedTimex3.type).iterator();
 
 		// Create List of all Timexes of types "date" and "time"
 		while (iterTimex.hasNext()) {
@@ -449,11 +423,9 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 				boolean updated = false;
 				if (prefix.endsWith("for")) {
 					if (find_durations) {
-						updated = findTimexes("DURATION", rulem
-								.getHmDurationPattern(), rulem
-								.getHmDurationOffset(), rulem
-								.getHmDurationNormalization(), rulem
-								.getHmDurationQuant(), sentence, jcas);
+						updated = findTimexes("DURATION", rulem.getHmDurationPattern(), 
+								rulem.getHmDurationOffset(), rulem.getHmDurationNormalization(), 
+								rulem.getHmDurationQuant(), sentence, jcas);
 					}
 					if (updated)
 						t_i.removeFromIndexes();
@@ -470,7 +442,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 	 * 
 	 * @param jcas
 	 */
-	@SuppressWarnings({ "unused", "unchecked" })
+	@SuppressWarnings({ "unused" })
 	public boolean specifyAmbiguousValues(JCas jcas) {
 		boolean changed = false;
 		NormalizationManager norm = NormalizationManager.getInstance();
@@ -482,8 +454,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 		List<MedTimex3> linearSets = new ArrayList<MedTimex3>();
 		List<MedTimex3> opSets = new ArrayList<MedTimex3>();
 
-		FSIterator iterTimex = jcas.getAnnotationIndex(MedTimex3.type)
-				.iterator();
+		FSIterator<? extends Annotation> iterTimex = jcas.getAnnotationIndex(MedTimex3.type).iterator();
 
 		// Create List of all Timexes of types "date" and "time"
 		while (iterTimex.hasNext()) {
@@ -604,7 +575,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 		// ////////////////////////////////////////////
 		// INFORMATION ABOUT DOCUMENT CREATION TIME //
 		// ////////////////////////////////////////////
-		FSIterator dctIter = jcas.getAnnotationIndex(DocumentMetadata.type).iterator();
+		FSIterator<? extends Annotation> dctIter = jcas.getAnnotationIndex(DocumentMetadata.type).iterator();
 		if (dctIter.hasNext()) {
 			dctAvailable = true;
 			DocumentMetadata dct = (DocumentMetadata) dctIter.next();
@@ -665,15 +636,12 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 		// ////////////////////////////////////////////
 		// go through list of Date and Time timexes //
 		// ////////////////////////////////////////////
-		if (opSets.size() > 0) {
-			MedTimex3 timex = (MedTimex3) linearDates
-					.get(linearDates.size() - 1);
-			if (timex.getContextSentence().getCoveredText()
-					.indexOf("discharge") >= 0) {
+		if (opSets.size() > 0 && linearDates.size()>0) {
+			MedTimex3 timex = (MedTimex3) linearDates.get(linearDates.size() - 1);
+			if (timex.getContextSentence().getCoveredText().indexOf("discharge") >= 0) {
 				String[] parts = timex.getTimexValue().split("\\-");
 				int diff = Integer.parseInt(parts[parts.length - 1]) * (-1);
-				String valueNew = DateCalculator.getXNextDay(disdate
-						.getTimexValue(), diff);
+				String valueNew = DateCalculator.getXNextDay(disdate.getTimexValue(), diff);
 				opdate.setTimexValue(valueNew);
 			}
 		}
@@ -785,29 +753,24 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 					}
 
 					if (valueNew.startsWith("ADMDATE")) {
-						valueNew = DateCalculator.getXNextDay(admdate
-								.getTimexValue(), addDay);
+						valueNew = DateCalculator.getXNextDay(admdate.getTimexValue(), addDay);
 					} else if (valueNew.startsWith("DISDATE")) {
 					 //   System.out.println("disdate:"+value_i+"|"+disdate.getTimexValue());
-						valueNew = DateCalculator.getXNextDay(disdate
-								.getTimexValue(), addDay);
+						valueNew = DateCalculator.getXNextDay(disdate.getTimexValue(), addDay);
 					}
 				}
 				// eg: HOSPITALDAY-digit
 				else if (valueNew.startsWith("HOSPITALDAY")) {
 					String[] parts = valueNew.split("\\-");
 					int addDay = Integer.parseInt(parts[1]) - 1;
-					valueNew = DateCalculator.getXNextDay(admdate
-							.getTimexValue(), addDay);
+					valueNew = DateCalculator.getXNextDay(admdate.getTimexValue(), addDay);
 				} else if (valueNew.startsWith("OPDATE")
-						&& opdate.getTimexValue().matches(
-								"[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]")) {
+						&& opdate.getTimexValue().matches("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]")) {
 					String[] parts = valueNew.split("\\-");
 					int addDay = 0;
 					if (parts[1].equals("PLUS"))
 						addDay = Integer.parseInt(parts[2]);
-					valueNew = DateCalculator.getXNextDay(opdate
-							.getTimexValue(), addDay);
+					valueNew = DateCalculator.getXNextDay(opdate.getTimexValue(), addDay);
 				} else if (valueNew.startsWith("INFER")) {
 					String[] parts = valueNew.split("-");
 					int addDay = 0;
@@ -823,26 +786,19 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 						}
 					}
 					if (previousDate != null) {
-						if ( ! previousDate.getContextSentence().getSegment().getId().equals(
-								t_i.getContextSentence().getSegment().getId())
-								|| t_i.getContextSentence().getCoveredText()
-										.indexOf("prior to admission") >= 0
-								|| t_i.getContextSentence().getSegment().getValue().startsWith(
-									"history_present_illness")
+						if ( ! previousDate.getContextSentence().getSegment().getId().equals(t_i.getContextSentence().getSegment().getId())
+								|| t_i.getContextSentence().getCoveredText().indexOf("prior to admission") >= 0
+								|| t_i.getContextSentence().getSegment().getValue().startsWith("history_present_illness")
 									|| parts[1].equals("adm")) {
-								valueNew = DateCalculator.getXNextDay(admdate
-										.getTimexValue(), addDay);
+								valueNew = DateCalculator.getXNextDay(admdate.getTimexValue(), addDay);
 						}
 						 else if(parts[1].equals("dis")
-								|| t_i.getContextSentence().getCoveredText()
-										.indexOf("prior to discharge") >= 0) {
-							valueNew = DateCalculator.getXNextDay(disdate
-									.getTimexValue(), addDay);
+								|| t_i.getContextSentence().getCoveredText().indexOf("prior to discharge") >= 0) {
+							valueNew = DateCalculator.getXNextDay(disdate.getTimexValue(), addDay);
 						
 						 }else  {
 							 if(previousDate.getTimexValue().contains("[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]")){
-								 valueNew=DateCalculator.getXNextDay(previousDate
-												.getTimexValue(), addDay);
+								 valueNew=DateCalculator.getXNextDay(previousDate.getTimexValue(), addDay);
 							 }
 							 else {
 								 valueNew = valueNew.replace("INFER-day", "UNDEF-this-day");
@@ -950,31 +906,27 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 						// Tense is FUTURE
 						if ((last_used_tense.equals("FUTURE"))
 								|| (last_used_tense.equals("PRESENTFUTURE"))) {
-							if (Integer.parseInt(dctQuarter.substring(1)) < Integer
-									.parseInt(viThisQuarter.substring(1))) {
+							if (Integer.parseInt(dctQuarter.substring(1)) < Integer.parseInt(viThisQuarter.substring(1))) {
 								int intNewYear = dctYear + 1;
 								newYearValue = intNewYear + "";
 							}
 						}
 						// Tense is PAST
 						if ((last_used_tense.equals("PAST"))) {
-							if (Integer.parseInt(dctQuarter.substring(1)) < Integer
-									.parseInt(viThisQuarter.substring(1))) {
+							if (Integer.parseInt(dctQuarter.substring(1)) < Integer.parseInt(viThisQuarter.substring(1))) {
 								int intNewYear = dctYear - 1;
 								newYearValue = intNewYear + "";
 							}
 						}
 						// IF NO TENSE IS FOUND
 						if (last_used_tense.equals("")) {
-							if (Integer.parseInt(dctQuarter.substring(1)) < Integer
-										.parseInt(viThisQuarter.substring(1))) {
+							if (Integer.parseInt(dctQuarter.substring(1)) < Integer.parseInt(viThisQuarter.substring(1))) {
 									int intNewYear = dctYear + 1;
 									newYearValue = intNewYear + "";
 							}
 							 else {
 								// IN NEWS: past temporal expressions
-								if (Integer.parseInt(dctQuarter.substring(1)) < Integer
-										.parseInt(viThisQuarter.substring(1))) {
+								if (Integer.parseInt(dctQuarter.substring(1)) < Integer.parseInt(viThisQuarter.substring(1))) {
 									int intNewYear = dctYear - 1;
 									newYearValue = intNewYear + "";
 								}
@@ -983,8 +935,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 					}
 					// WITHOUT DOCUMENT CREATION TIME
 					else {
-						newYearValue = ContextAnalyzer.getLastMentionedX(
-								linearDates, i, "year");
+						newYearValue = ContextAnalyzer.getLastMentionedX(linearDates, i, "year");
 					}
 				}
 			
@@ -995,30 +946,26 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 						// Tense is FUTURE
 						if ((last_used_tense.equals("FUTURE"))
 								|| (last_used_tense.equals("PRESENTFUTURE"))) {
-							if (Integer.parseInt(dctHalf.substring(1)) < Integer
-									.parseInt(viThisHalf.substring(1))) {
+							if (Integer.parseInt(dctHalf.substring(1)) < Integer.parseInt(viThisHalf.substring(1))) {
 								int intNewYear = dctYear + 1;
 								newYearValue = intNewYear + "";
 							}
 						}
 						// Tense is PAST
 						if ((last_used_tense.equals("PAST"))) {
-							if (Integer.parseInt(dctHalf.substring(1)) < Integer
-									.parseInt(viThisHalf.substring(1))) {
+							if (Integer.parseInt(dctHalf.substring(1)) < Integer.parseInt(viThisHalf.substring(1))) {
 								int intNewYear = dctYear - 1;
 								newYearValue = intNewYear + "";
 							}
 						}
 						// IF NO TENSE IS FOUND
 						if (last_used_tense.equals("")) {
-							if (Integer.parseInt(dctHalf.substring(1)) < Integer
-										.parseInt(viThisHalf.substring(1))) {
+							if (Integer.parseInt(dctHalf.substring(1)) < Integer.parseInt(viThisHalf.substring(1))) {
 									int intNewYear = dctYear + 1;
 									newYearValue = intNewYear + "";
 							}
 							 else {
-								 if (Integer.parseInt(dctHalf.substring(1)) < Integer
-										.parseInt(viThisHalf.substring(1))) {
+								 if (Integer.parseInt(dctHalf.substring(1)) < Integer.parseInt(viThisHalf.substring(1))) {
 									int intNewYear = dctYear - 1;
 									newYearValue = intNewYear + "";
 								}
@@ -1027,8 +974,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 					}
 					// WITHOUT DOCUMENT CREATION TIME
 					else {
-						newYearValue = ContextAnalyzer.getLastMentionedX(
-								linearDates, i, "year");
+						newYearValue = ContextAnalyzer.getLastMentionedX(linearDates, i, "year");
 					}
 				}
 
@@ -1042,8 +988,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 					}
 					// WITHOUT DOCUMENT CREATION TIME
 					else {
-						newYearValue = ContextAnalyzer.getLastMentionedX(
-								linearDates, i, "year");
+						newYearValue = ContextAnalyzer.getLastMentionedX(linearDates, i, "year");
 					}
 				}
 				// vi has week
@@ -1054,8 +999,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 					}
 					// WITHOUT DOCUMENT CREATION TIME
 					else {
-						newYearValue = ContextAnalyzer.getLastMentionedX(
-								linearDates, i, "year");
+						newYearValue = ContextAnalyzer.getLastMentionedX(linearDates, i, "year");
 					}
 				}
 
@@ -1114,8 +1058,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 					// (changed 2011-09-08)
 					valueNew = valueNew.replaceFirst("UNDEF-century", "19");
 				} else {
-					valueNew = valueNew.replaceFirst("UNDEF-century",
-							newCenturyValue + "");
+					valueNew = valueNew.replaceFirst("UNDEF-century", newCenturyValue + "");
 				}
 				// always assume that sixties, twenties, and so on are 19XX
 				// (changed 2011-09-08)
@@ -1137,11 +1080,9 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 				if (valueNew
 						.matches("^UNDEF-(this|REFUNIT|REF)-(.*)-(MINUS|PLUS)-(.*)")
 						|| t_i.getTimexType().indexOf("date_r19g") >= 0) {
-					for (Object mr : Toolbox
-							.findMatches(
-									Pattern
-											.compile("^(UNDEF-(this|REFUNIT|REF)-(.*?)-(MINUS|PLUS)-(.*))"),
-									valueNew)) {
+					for (Object mr : Toolbox.findMatches(
+										Pattern.compile("^(UNDEF-(this|REFUNIT|REF)-(.*?)-(MINUS|PLUS)-(.*))"),
+										valueNew)) {
 						String checkUndef = ((MatchResult) mr).group(1);
 						String ltn = ((MatchResult) mr).group(2);
 						String unit = ((MatchResult) mr).group(3);
@@ -1238,19 +1179,14 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 							// check for REFUNIT (only allowed for "year")
 							if ((ltn.equals("REFUNIT"))
 									&& (unit.equals("year"))) {
-								String dateWithYear = ContextAnalyzer
-										.getLastMentionedX(linearDates, i,
-												"dateYear");
+								String dateWithYear = ContextAnalyzer.getLastMentionedX(linearDates, i, "dateYear");
 								if (dateWithYear.equals("")) {
-									valueNew = valueNew.replace(checkUndef,
-											"XXXX");
+									valueNew = valueNew.replace(checkUndef, "XXXX");
 								} else {
 									if (op.equals("MINUS")) {
 										diff = diff * (-1);
 									}
-									int yearNew = Integer.parseInt(dateWithYear
-											.substring(0, 4))
-											+ diff;
+									int yearNew = Integer.parseInt(dateWithYear.substring(0, 4)) + diff;
 									String rest = dateWithYear.substring(4);
 									valueNew = valueNew.replace(checkUndef,
 											yearNew + rest);
@@ -1266,27 +1202,19 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 									} else if (op.equals("PLUS")) {
 										decade = dctDecade + diff;
 									}
-									valueNew = valueNew.replace(checkUndef,
-											decade + "X");
+									valueNew = valueNew.replace(checkUndef, decade + "X");
 								} else {
 									String lmDecade = ContextAnalyzer
-											.getLastMentionedX(linearDates, i,
-													"decade");
+											.getLastMentionedX(linearDates, i, "decade");
 									if (lmDecade.equals("")) {
-										valueNew = valueNew.replace(checkUndef,
-												"XXX");
+										valueNew = valueNew.replace(checkUndef, "XXX");
 									} else {
 										if (op.equals("MINUS")) {
-											lmDecade = Integer
-													.parseInt(lmDecade)
-													- diff + "X";
+											lmDecade = Integer.parseInt(lmDecade) - diff + "X";
 										} else if (op.equals("PLUS")) {
-											lmDecade = Integer
-													.parseInt(lmDecade)
-													+ diff + "X";
+											lmDecade = Integer.parseInt(lmDecade) + diff + "X";
 										}
-										valueNew = valueNew.replace(checkUndef,
-												lmDecade);
+										valueNew = valueNew.replace(checkUndef, lmDecade);
 									}
 								}
 							} else if (unit.equals("year")) {
@@ -1301,23 +1229,17 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 									valueNew = valueNew.replace(checkUndef,
 											intValue + "");
 								} else {
-									String lmYear = ContextAnalyzer
-											.getLastMentionedX(linearDates, i,
-													"year");
+									String lmYear = ContextAnalyzer.getLastMentionedX(linearDates, i, "year");
 									if (lmYear.equals("")) {
-										valueNew = valueNew.replace(checkUndef,
-												"XXXX");
+										valueNew = valueNew.replace(checkUndef, "XXXX");
 									} else {
 										int intValue = Integer.parseInt(lmYear);
 										if (op.equals("MINUS")) {
-											intValue = Integer.parseInt(lmYear)
-													- diff;
+											intValue = Integer.parseInt(lmYear) - diff;
 										} else if (op.equals("PLUS")) {
-											intValue = Integer.parseInt(lmYear)
-													+ diff;
+											intValue = Integer.parseInt(lmYear) + diff;
 										}
-										valueNew = valueNew.replace(checkUndef,
-												intValue + "");
+										valueNew = valueNew.replace(checkUndef, intValue + "");
 									}
 								}
 							} else if (unit.equals("quarter")) {
@@ -1338,19 +1260,12 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 									valueNew = valueNew.replace(checkUndef,
 											intYear + "-Q" + intQuarter);
 								} else {
-									String lmQuarter = ContextAnalyzer
-											.getLastMentionedX(linearDates, i,
-													"quarter");
+									String lmQuarter = ContextAnalyzer.getLastMentionedX(linearDates, i, "quarter");
 									if (lmQuarter.equals("")) {
-										valueNew = valueNew.replace(checkUndef,
-												"XXXX-XX");
+										valueNew = valueNew.replace(checkUndef, "XXXX-XX");
 									} else {
-										int intYear = Integer
-												.parseInt(lmQuarter.substring(
-														0, 4));
-										int intQuarter = Integer
-												.parseInt(lmQuarter
-														.substring(6));
+										int intYear = Integer.parseInt(lmQuarter.substring(0, 4));
+										int intQuarter = Integer.parseInt(lmQuarter.substring(6));
 										int diffQuarters = diff % 4;
 										diff = diff - diffQuarters;
 										int diffYears = diff / 4;
@@ -1360,8 +1275,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 										}
 										intYear = intYear + diffYears;
 										intQuarter = intQuarter + diffQuarters;
-										valueNew = valueNew.replace(checkUndef,
-												intYear + "-Q" + intQuarter);
+										valueNew = valueNew.replace(checkUndef, intYear + "-Q" + intQuarter);
 									}
 								}
 							} else if (unit.equals("month")) {
@@ -1370,56 +1284,26 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 									if (op.equals("MINUS")) {
 										diff = diff * (-1);
 									}
-									valueNew = valueNew
-											.replace(
-													checkUndef,
-													DateCalculator
-															.getXNextMonth(
-																	dctYear
-																			+ "-"
-																			+ norm
-																					.getFromNormNumber(dctMonth
-																							+ ""),
-																	diff));
-								} else if (t_i.getContextSentence()
-										.getCoveredText().indexOf("follow up") >= 0
-										|| t_i.getContextSentence()
-												.getCoveredText().indexOf(
-														"follow-up") >= 0
-										|| t_i.getContextSentence()
-												.getCoveredText().indexOf(
-														"followup") >= 0
-										|| t_i.getContextSentence()
-												.getCoveredText().indexOf(
-														"followed") >= 0
-										|| t_i.getContextSentence().getSegment().getId().equals(
-												"9")) {
+									valueNew = valueNew.replace(checkUndef, DateCalculator.getXNextMonth(dctYear + "-" + norm.getFromNormNumber(dctMonth + ""), diff));
+								} else if (t_i.getContextSentence().getCoveredText().indexOf("follow up") >= 0
+										|| t_i.getContextSentence().getCoveredText().indexOf("follow-up") >= 0
+										|| t_i.getContextSentence().getCoveredText().indexOf("followup") >= 0
+										|| t_i.getContextSentence().getCoveredText().indexOf("followed") >= 0
+										|| t_i.getContextSentence().getSegment().getId().equals("9")) {
 									String[] parts = valueNew.split("-");
 									if (parts[3].equals("PLUS")) {
 										diff = (int) Math.round(ddiff * 30);
-										valueNew = valueNew
-												.replace(
-														checkUndef,
-														DateCalculator
-																.getXNextDay(
-																		disdate
-																				.getTimexValue(),
-																		diff));
+										valueNew = valueNew.replace(checkUndef, DateCalculator.getXNextDay(disdate.getTimexValue(), diff));
 									}
 								} else {
-									String lmMonth = ContextAnalyzer
-											.getLastMentionedX(linearDates, i,
-													"month");
+									String lmMonth = ContextAnalyzer.getLastMentionedX(linearDates, i, "month");
 									if (lmMonth.equals("")) {
-										valueNew = valueNew.replace(checkUndef,
-												"XXXX-XX");
+										valueNew = valueNew.replace(checkUndef, "XXXX-XX");
 									} else {
 										if (op.equals("MINUS")) {
 											diff = diff * (-1);
 										}
-										valueNew = valueNew.replace(checkUndef,
-												DateCalculator.getXNextMonth(
-														lmMonth, diff));
+										valueNew = valueNew.replace(checkUndef, DateCalculator.getXNextMonth(lmMonth, diff));
 									}
 								}
 							} else if (unit.equals("week")) {
@@ -1751,34 +1635,27 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 
 						// Hongfang Add
 						if (i + 1 < linearDates.size()
-								&& linearDates.get(i + 1).getTimexType()
-										.equals("DATE")
+								&& linearDates.get(i + 1).getTimexType().equals("DATE")
 								&& linearDates.get(i + 1).getContextSentence().getId() == t_i
-								.getContextSentence().getId()) {
-							valueNew = valueNew.replace(checkUndef,
-									"UNDEF-NEXT-ENTRY");
+									.getContextSentence().getId()) {
+							valueNew = valueNew.replace(checkUndef,	"UNDEF-NEXT-ENTRY");
 						}
+						
 						if (i - 1 > 0
-								&& linearDates.get(i - 1).getTimexType()
-										.equals("DATE")
+								&& linearDates.get(i - 1).getTimexType().equals("DATE")
 								&& linearDates.get(i - 1).getContextSentence().getId() == t_i
-								.getContextSentence().getId()) {
-							valueNew = valueNew.replace(checkUndef, linearDates
-									.get(i - 1).getTimexValue());
+									.getContextSentence().getId()) {
+							valueNew = valueNew.replace(checkUndef, linearDates.get(i - 1).getTimexValue());
 						}
 						// end Hongfang Add
 
-						String lmDay = ContextAnalyzer.getLastMentionedX(
-								linearDates, i, "day");
+						String lmDay = ContextAnalyzer.getLastMentionedX(linearDates, i, "day");
 						if (!lmDay.equals("")) {
 							valueNew = valueNew.replace(checkUndef, lmDay);
-						} else if (t_i.getContextSentence().getSegment().getValue().equals(
-								"history_present_illness")) {
-							valueNew = valueNew.replace(checkUndef, admdate
-									.getTimexValue());
+						} else if (t_i.getContextSentence().getSegment().getValue().equals("history_present_illness")) {
+							valueNew = valueNew.replace(checkUndef, admdate.getTimexValue());
 						} else {
-							valueNew = valueNew.replace(checkUndef,
-									"XXXX-XX-XX");
+							valueNew = valueNew.replace(checkUndef, "XXXX-XX-XX");
 						}
 						// if (value_i.equals("UNDEF-this-day")) {
 						// valueNew = "PRESENT_REF";
@@ -2477,13 +2354,11 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 			linearDates.set(i, t_i);
 			// Hongfang handle undef for previous entry
 			if (i - 1 >= 0
-					&& linearDates.get(i - 1).getTimexValue().indexOf(
-							"UNDEF-NEXT-ENTRY") >= 0) {
+					&& linearDates.get(i - 1).getTimexValue().indexOf("UNDEF-NEXT-ENTRY") >= 0) {
 				MedTimex3 t_previous = linearDates.get(i - 1);
 				String oldValue = t_previous.getTimexValue();
 				t_previous.removeFromIndexes();
-				t_previous.setTimexValue(oldValue.replaceFirst(
-						"UNDEF-NEXT-ENTRY", valueNew));
+				t_previous.setTimexValue(oldValue.replaceFirst("UNDEF-NEXT-ENTRY", valueNew));
 				t_previous.addToIndexes();
 				linearDates.set(i - 1, t_previous);
 			}
@@ -2502,13 +2377,11 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 	 * @return
 	 */
 	
-	@SuppressWarnings("unchecked")
 	public String getPosFromMatchResult(int tokBegin, int tokEnd, Sentence s,
 			JCas jcas) {
 		// get all tokens in sentence
 		HashMap<Integer, BaseToken> hmTokens = new HashMap<Integer, BaseToken>();
-		FSIterator iterTok = jcas.getAnnotationIndex(BaseToken.type)
-				.subiterator(s);
+		FSIterator<? extends Annotation> iterTok = jcas.getAnnotationIndex(BaseToken.type).subiterator(s);
 		while (iterTok.hasNext()) {
 			BaseToken token = (BaseToken) iterTok.next();
 			hmTokens.put(token.getBegin(), token);
@@ -2701,8 +2574,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 		String normalized = "";
 		// pattern for normalization functions + group information
 		// pattern for group information
-		Pattern paNorm = Pattern
-				.compile("%([A-Za-z0-9]+?)\\(group\\(([0-9]+)\\)\\)");
+		Pattern paNorm = Pattern.compile("%([A-Za-z0-9]+?)\\(group\\(([0-9]+)\\)\\)");
 		Pattern paGroup = Pattern.compile("group\\(([0-9]+)\\)");
 		while ((tonormalize.contains("%")) || (tonormalize.contains("group"))) {
 			// replace normalization functions
@@ -2761,8 +2633,7 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 						.parseInt(((MatchResult) mr).group(1))));
 			}
 			// replace substrings
-			Pattern paSubstring = Pattern
-					.compile("%SUBSTRING%\\((.*?),([0-9]+),([0-9]+)\\)");
+			Pattern paSubstring = Pattern.compile("%SUBSTRING%\\((.*?),([0-9]+),([0-9]+)\\)");
 			for (Object mr : Toolbox.findMatches(paSubstring, tonormalize)) {
 				String substring = ((MatchResult) mr).group(1).substring(
 						Integer.parseInt(((MatchResult) mr).group(2)),
@@ -2789,10 +2660,8 @@ public class MedTimeAnnotator extends JCasAnnotator_ImplBase {
 				tonormalize = tonormalize.replace(((MatchResult) mr).group(), newValue + "");
 			}
 			// replace normalization function without group
-			Pattern paNormNoGroup = Pattern
-					.compile("%([A-Za-z0-9]+?)\\((.*?)\\)");
-			for (Object mr : Toolbox.findMatches(paNormNoGroup,
-					tonormalize)) {
+			Pattern paNormNoGroup = Pattern.compile("%([A-Za-z0-9]+?)\\((.*?)\\)");
+			for (Object mr : Toolbox.findMatches(paNormNoGroup, tonormalize)) {
 				tonormalize = tonormalize.replace(((MatchResult) mr).group(), (String) norm
 						.getFromHmAllNormalization(((MatchResult) mr).group(1))
 						.get(((MatchResult) mr).group(2)));
