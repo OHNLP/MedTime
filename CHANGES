@@ -1,0 +1,9 @@
+
+Fixes included in MedTime-1.0.1:
+
+#107 - MedTime Caused by: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0 at org.ohnlp.medtime.ae.MedTimeAnnotator.findAnchorDates(MedTimeAnnotator.java:392)
+#108 - Launching CPE using MedTime project within Eclipse causes: Could not load descriptor from URL jar:file....FileSystemReader.xml
+#109 - Fix capitalization error of POSTaggerAE (was PosTaggerAE) with aggregate descriptor
+#110 - Updates MedTime release to 1.0.1
+
+https://sourceforge.net/p/ohnlp/bugs/
