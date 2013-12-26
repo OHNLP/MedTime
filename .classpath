@@ -8,7 +8,7 @@
 	<classpathentry kind="lib" path="lib/uimaj-core-2.4.0.jar"/>
 	<classpathentry kind="lib" path="lib/uimaj-cpe-2.4.0.jar"/>
 	<classpathentry kind="lib" path="lib/uimaj-tools-2.4.0.jar"/>
-	<classpathentry kind="lib" path="lib/MedTagger-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/MedTagger-1.0.1.jar"/>
 	<classpathentry kind="lib" path="resources"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

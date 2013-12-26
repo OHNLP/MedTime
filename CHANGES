@@ -1,4 +1,11 @@
 
+Fixes included in MedTime-1.0.2:
+
+#120 - Upgrade MedTime to use MedTagger-1.0.1 instead of MedTagger-1.0
+#121 - Make MedTime scripts executable for non-Windows
+#122 - Create MedTime 1.0.2
+
+
 Fixes included in MedTime-1.0.1:
 
 #107 - MedTime Caused by: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0 at org.ohnlp.medtime.ae.MedTimeAnnotator.findAnchorDates(MedTimeAnnotator.java:392)
