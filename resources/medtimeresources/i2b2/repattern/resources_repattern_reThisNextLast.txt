@@ -1,0 +1,11 @@
+// This file contains regular expression patterns for "this/next/last" words.
+// FORMAT: one line is one disjunction of the pattern
+[Ll]ast
+[Pp]ast
+[Nn]ext
+//[Ff]ollowing -> handled differently using UNDEF-REF
+[Ll]atest
+[Cc]urrent
+[Tt]his
+[Pp]revious
+[Tt]hat

@@ -1,0 +1,3 @@
+// This file contains regular expression patterns for POS tags indicating future.
+// FORMAT: one line is one disjunction of the pattern
+MD

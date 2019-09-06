@@ -1,0 +1,8 @@
+// This file contains regular expression patterns for set words.
+// FORMAT: one line is one disjunction of the pattern
+[Aa]nnually
+[Mm]onthly
+[Ww]eekly
+[Dd]aily
+[Hh]ourly
+[Mn]inutely

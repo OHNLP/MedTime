@@ -1,0 +1,102 @@
+// Adapted/modified from HeidelTime
+// This file contains rules for the temporal expressions of the type duration: durationrules
+// RULENAME="",EXTRACTION="",NORM_VALUE=""(,OFFSET="")?(,POS_CONSTRAINT="")?(,NORM_MOD="")?(,NORM_QUANT="")?(,NORM_FREQ="")?
+
+/////////////////////
+// POSITIVE RULES //
+/////////////////////
+// duration_r1
+// EXAMPLE r1a-1: less than sixty days
+// EXAMPLE r1b-1: less than 60 days
+// EXAMPLE r1c-1: several days
+// EXAMPLE r1d-1: less than sixty minutes
+// EXAMPLE r1e-1: less than 60 minutes
+// EXAMPLE r1f-1: several minutes
+RULENAME="duration_r1a",EXTRACTION="(%reApproximate )?(%reNumWord2D|%reNumWord1D)( |-| \w+ )%reUnit",NORM_VALUE="P%normDurationNumber(group(3))%normUnit4Duration(group(7))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r1b",EXTRACTION="(%reApproximate )?([\d]+)( |-| \w+ )%reUnit",NORM_VALUE="Pgroup(3)%normUnit4Duration(group(5))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r1c",EXTRACTION="(%reApproximate )?(several|a? ?number of|many|some|several|past few|recent|coming|a? ?few) %reUnit",NORM_VALUE="PX%normUnit4Duration(group(4))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r1d",EXTRACTION="(%reApproximate )?(%reNumWord2D|%reNumWord1D)( |-)(minutes?|hours?|hrs?|mins?|seconds?|secs?)",NORM_VALUE="PT%normDurationNumber(group(3))%normUnit4Duration(group(7))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r1e",EXTRACTION="(%reApproximate )?([\d]+)( |-)(minutes?|hours?|hrs?|mins?|seconds?|secs?)",NORM_VALUE="PTgroup(3)%normUnit4Duration(group(5))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r1f",EXTRACTION="(%reApproximate )?(several|a? ?number of|many|some|past few|several|recent|coming|a? ?few) (minutes?|hours?|hrs?|mins?|seconds?|secs?)",NORM_VALUE="PTX%normUnit4Duration(group(4))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r1g",EXTRACTION="(%reApproximate )(an|a)( )%reUnit",NORM_VALUE="P1%normUnit4Duration(group(5))",NORM_MOD="%normApprox4Durations(group(2))"
+
+// duration_r2
+// EXAMPLE r2a-1: at least the last twenty years
+// EXAMPLE r2b-1: at least the last 20 years
+// EXAMPLE r2c-1: at least the last several years
+// EXAMPLE r2d-1: at least the last twenty minutes
+// EXAMPLE r2e-1: at least the last 20 minutes
+// EXAMPLE r2f-1: at least the last several minutes
+RULENAME="duration_r2a",EXTRACTION="(%reApproximate )?[tT]he %reThisNextLast (%reNumWord2D|%reNumWord1D) %reUnit( or so)?",NORM_VALUE="P%normDurationNumber(group(4))%normUnit4Duration(group(7))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r2b",EXTRACTION="(%reApproximate )?[tT]he %reThisNextLast ([\d]+) %reUnit( or so)?",NORM_VALUE="Pgroup(4)%normUnit4Duration(group(5))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r2c",EXTRACTION="(%reApproximate )?[tT]he %reThisNextLast (several|a? ?number of|a? ?few|few) %reUnit( or so)?",NORM_VALUE="PX%normUnit4Duration(group(5))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r2d",EXTRACTION="(%reApproximate )?[tT]he %reThisNextLast (%reNumWord2D|%reNumWord1D) (minutes?|hours?|hrs?|mins?|seconds?|secs?)( or so)?",NORM_VALUE="PT%normDurationNumber(group(4))%normUnit4Duration(group(7))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r2e",EXTRACTION="(%reApproximate )?[tT]he %reThisNextLast ([\d]+) (minutes?|hours?|hrs?|mins?|seconds?|secs?)( or so)?",NORM_VALUE="PTgroup(4)%normUnit4Duration(group(5))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r2f",EXTRACTION="(%reApproximate )?[tT]he %reThisNextLast (several|number of|a? ?few|few) (minutes?|hours?|hrs?|mins?|seconds?|secs?)( or so)?",NORM_VALUE="PTX%normUnit4Duration(group(5))",NORM_MOD="%normApprox4Durations(group(2))"
+
+// duration_r3
+// EXAMPLE r3a-1: a three-year period
+// EXAMPLE r3b-1: a 300 year period
+// EXAMPLE r3c-1: a three-hour period
+// EXAMPLE r3d-1: a 300 hour period
+RULENAME="duration_r3a",EXTRACTION="((a|an|the) )?(%reNumWord2D|%reNumWord1D)( |-)%reUnit (period|term|course)",NORM_VALUE="P%normDurationNumber(group(3))%normUnit4Duration(group(7))"
+RULENAME="duration_r3b",EXTRACTION="((a|an|the) )?([\d]+)( |-)%reUnit (period|term|course)",NORM_VALUE="Pgroup(3)%normUnit4Duration(group(5))"
+RULENAME="duration_r3c",EXTRACTION="((a|an|the) )?(%reNumWord2D|%reNumWord1D)( |-)(minutes?|hours?|hrs?|mins?|seconds?|secs?) (period|term|course)",NORM_VALUE="PT%normDurationNumber(group(3))%normUnit4Duration(group(7))"
+RULENAME="duration_r3d",EXTRACTION="((a|an|the) )?([\d]+)( |-)(minutes?|hours?) (period|term|course)",NORM_VALUE="PTgroup(3)%normUnit4Duration(group(5))"
+
+
+
+//the course of the night
+// duration_r4
+// EXAMPLE r4b-1: 3 to 5 minutes
+RULENAME="duration_r4a",EXTRACTION="(%reApproximate )?(%reNumWord1D)(-| to | and )(%reNumWord1D)(.| \w+ )%reUnit",NORM_VALUE="P%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(9))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r4a1",EXTRACTION="(%reApproximate )?(%reNumWord2D)(-| to | and )(%reNumWord2D)(.| \w+ )%reUnit",NORM_VALUE="P%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(9))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r4a2",EXTRACTION="(%reApproximate )?(%reNumWord1D)(-| to | and )(%reNumWord2D)(.| \w+ )%reUnit",NORM_VALUE="P%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(9))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r4b",EXTRACTION="(%reApproximate )?([\d]+)( |-| to | and )([\d]+)(.| \w+ )%reUnit",NORM_VALUE="Pgroup(5)Kgroup(3)%normUnit4Duration(group(7))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r4c",EXTRACTION="(%reApproximate )?([\d]+)( |-| to | and )([\d]+)(/[\d]+)(.| \w+ )%reUnit",NORM_VALUE="Pgroup(5)Fgroup(6)Kgroup(3)%normUnit4Duration(group(8))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r4d",EXTRACTION="(%reApproximate )?(%reNumWord1D)(-| to | and )(%reNumWord1D)(.| \w+ )(minutes?|hours?|hrs?|mins?|seconds?|secs?)",NORM_VALUE="PT%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(9))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r4d1",EXTRACTION="(%reApproximate )?(%reNumWord2D)(-| to | and )(%reNumWord2D)(.| \w+ )(minutes?|hours?|hrs?|mins?|seconds?|secs?)",NORM_VALUE="PT%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(9))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r4d2",EXTRACTION="(%reApproximate )?(%reNumWord1D)(-| to | and )(%reNumWord2D)(.| \w+ )(minutes?|hours?|hrs?|mins?|seconds?|secs?)",NORM_VALUE="PT%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(9))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r4e",EXTRACTION="(%reApproximate )?([\d]+)( |-| to | and )([\d]+)( )(minutes?|hours?|hrs?|mins?|seconds?|secs?)",NORM_VALUE="PTgroup(5)Kgroup(3)%normUnit4Duration(group(7))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r4f",EXTRACTION="(%reApproximate )?([\d]+)( |-| to | and )([\d]+)(/[\d]+)( )(minutes?|hours?|hrs?|mins?|seconds?|secs?)",NORM_VALUE="PTgroup(5)Fgroup(6)Kgroup(3)%normUnit4Duration(group(8))",NORM_MOD="%normApprox4Durations(group(2))"
+
+
+//RULENAME="duration_r4h",EXTRACTION="(%reApproximate )?%reUnit (%reNumWord1D)(-| to | and )(%reNumWord1D)",NORM_VALUE="P%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(3))",NORM_MOD="%normApprox4Durations(group(2))"
+//RULENAME="duration_r4h1",EXTRACTION="(%reApproximate )?%reUnit (%reNumWord2D)(-| to | and )(%reNumWord2D)",NORM_VALUE="P%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(3))",NORM_MOD="%normApprox4Durations(group(2))"
+//RULENAME="duration_r4h2",EXTRACTION="(%reApproximate )?%reUnit (%reNumWord1D)(-| to | and )(%reNumWord2D)",NORM_VALUE="P%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(3))",NORM_MOD="%normApprox4Durations(group(2))"
+//RULENAME="duration_r4h3",EXTRACTION="(%reApproximate )?%reUnit ([\d]+)( |-| to | and )([\d]+)",NORM_VALUE="Pgroup(6)Kgroup(4)%normUnit4Duration(group(3))",NORM_MOD="%normApprox4Durations(group(2))"
+//RULENAME="duration_r4h5",EXTRACTION="(%reApproximate )?(minutes?|hours?|hrs?|mins?|seconds?|secs?) (%reNumWord1D)(-| to | and )(%reNumWord1D)",NORM_VALUE="PT%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(3))",NORM_MOD="%normApprox4Durations(group(2))"
+//RULENAME="duration_r4h6",EXTRACTION="(%reApproximate )?(minutes?|hours?|hrs?|mins?|seconds?|secs?) (%reNumWord2D)(-| to | and )(%reNumWord2D)",NORM_VALUE="PT%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(3))",NORM_MOD="%normApprox4Durations(group(2))"
+//RULENAME="duration_r4h7",EXTRACTION="(%reApproximate )?(minutes?|hours?|hrs?|mins?|seconds?|secs?) (%reNumWord1D)(-| to | and )(%reNumWord2D)",NORM_VALUE="PT%normDurationNumber(group(7))K%normDurationNumber(group(4))%normUnit4Duration(group(3))",NORM_MOD="%normApprox4Durations(group(2))"
+//RULENAME="duration_r4h8",EXTRACTION="(%reApproximate )?(minutes?|hours?|hrs?|mins?|seconds?|secs?) ([\d]+)( |-| to | and )([\d]+)",NORM_VALUE="PTgroup(6)Kgroup(4)%normUnit4Duration(group(3))",NORM_MOD="%normApprox4Durations(group(2))"
+// constant
+RULENAME="duration_r5a",EXTRACTION="(%reApproximate )?(entire |all of the |the |the past |last |previous )(second|minute|hour|hr|min|sec)",NORM_VALUE="PT1%normUnit4Duration(group(4))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r5b",EXTRACTION="(%reApproximate )?(entire |all of the |the |the past |last |previous )%reUnit",NORM_VALUE="P1%normUnit4Duration(group(4))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r5c",EXTRACTION="(%reApproximate )?[tT]he %reThisNextLast couple of (seconds|minutes|hours|hrs|mins|secs)",NORM_VALUE="PT2%normUnit4Duration(group(4))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r5d",EXTRACTION="(%reApproximate )?[tT]he %reThisNextLast couple of %reUnit",NORM_VALUE="P2%normUnit4Duration(group(4))",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r5f",EXTRACTION="(%reApproximate )?(a couple of) %reUnit",NORM_VALUE="P2D",NORM_MOD="%normApprox4Durations(group(2))"
+RULENAME="duration_r5e",EXTRACTION="([Oo]vernight|OVERNIGHT|[Tt]he night)",NORM_VALUE="PT12H",NORM_MOD="APPROX"
+RULENAME="duration_r5g",EXTRACTION="([Ff]or|[Mm]any) years",NORM_VALUE="P3Y",NORM_MOD="APPROX"
+RULENAME="duration_r5g_1",EXTRACTION="([Ff]or|[Mm]any) months",NORM_VALUE="P3M",NORM_MOD="APPROX"
+RULENAME="duration_r5g_2",EXTRACTION="([Ff]or|[Mm]any) days",NORM_VALUE="P3D",NORM_MOD="APPROX"
+RULENAME="duration_r5g_3",EXTRACTION="([Ff]or|[Mm]any) hours",NORM_VALUE="PT3H",NORM_MOD="APPROX"
+RULENAME="duration_r5h",EXTRACTION="(term|period|course) of the night",NORM_VALUE="PT12H",NORM_MOD="APPROX"
+RULENAME="duration_r5i",EXTRACTION="[tT]he holiday weekend",NORM_VALUE="P3D",NORM_MOD="APPROX"
+RULENAME="duration_r5j",EXTRACTION="o/n",NORM_VALUE="PT8H",NORM_MOD="APPROX"
+RULENAME="duration_r5k",EXTRACTION="[tT]he post( |-|)operative period",NORM_VALUE="P7D",NORM_MOD="APPROX"
+RULENAME="duration_r5l",EXTRACTION="[tT]he immediate post( |-|)operative period",NORM_VALUE="P1D",NORM_MOD="APPROX"
+RULENAME="duration_r5l",EXTRACTION="half( an)? hour",NORM_VALUE="PT30M",NORM_MOD="APPROX"
+
+////////////////////
+// NEGATIVE RULES //
+////////////////////
+// duration_r1_negative
+// EXAMPLE r1a_negative-1: about 200 years older
+// EXAMPLE r1b_negative-1: several days old
+RULENAME="duration_r1a_negation",EXTRACTION="(%reApproximate )?(%reNumWord2D|%reNumWord1D|[\d]+).(%reUnit|minutes?|hours?|mins?|hrs?).(older|younger|old|young)",NORM_VALUE="REMOVE"
+RULENAME="duration_r1b_negation",EXTRACTION="(%reApproximate )?(several|a number of|a couple of|some|several|few|recent|coming).(%reUnit|minutes?|hours?) (older|younger|old|young)",NORM_VALUE="REMOVE"
+RULENAME="duration_r1d_negation",EXTRACTION="(%reApproximate )?(%reNumWord2D|%reNumWord1D|[\d]+).(%reUnit|minutes?|hours?|mins?|hr?).(older|younger|old|young)",NORM_VALUE="REMOVE"
+RULENAME="duration_r1f_negation",EXTRACTION="(%reApproximate )?(%reNumWord2D|%reNumWord1D|[\d]+).(%reUnit|MINUTES|HOURS|HRS|MINS).(OLDER|YOUNGER|OLD|YOUNG)",NORM_VALUE="REMOVE"
+RULENAME="duration_r1g_negation",EXTRACTION="(%reApproximate )?(SEVERAL|A NUMBER OF|A COUPLE OF|SOME|FEW|SEVERAL|RECENT|COMING|FEW).(%reUnit|MINUTES|HOURS|HRS|MINS).(OLDER|YOUNGER|OLD|YOUNG)",NORM_VALUE="REMOVE"
+RULENAME="duration_r1h_negation",EXTRACTION="(%reApproximate )?(%reNumWord2D|%reNumWord1D|[\d]+).(%reUnit|MINUTES|HOURS|HRS|MINS).(OLDER|YOUNGER|OLD|YOUNG)",NORM_VALUE="REMOVE"
+

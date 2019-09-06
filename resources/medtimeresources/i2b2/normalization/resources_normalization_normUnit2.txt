@@ -1,0 +1,9 @@
+// This file contains "unit words" and their normalized expressions.
+// For example, the normalized value of "week" is "week"
+"daily","day"
+"weekly","week"
+"monthly","month"
+"yearly","year"
+"hourly","hour"
+"minutely","minute"
+"secondly","second"
