@@ -6,11 +6,33 @@
 
     <groupId>org.ohnlp.medtime</groupId>
     <artifactId>MedTime</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <description>The MedTime Clinical Time Information extraction pipeline</description>
 
+    <repositories>
+        <repository>
+            <id>medtagger</id>
+            <name>GitHub OHNLP MedTagger Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/OHNLP/MedTagger</url>
+        </repository>
+    </repositories>
+
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -21,15 +43,11 @@
         </plugins>
     </build>
 
-    <properties>
-        <uimaj.version>2.10.0</uimaj.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.ohnlp.medtagger</groupId>
             <artifactId>MedTagger</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.7</version>
         </dependency>
     </dependencies>
 
