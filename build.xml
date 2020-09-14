@@ -35,8 +35,14 @@
 
     <target name="dist"
             description="generate the distribution" depends="init">
-        <copydir src="src/main/resources" dest="${dist}"/>
+        <copydir src="src/main/resources" dest="${dist}/resources"/>
         <copy file="target/MedTime.jar" tofile="${dist}/MedTime.jar"/>
+        <copy file="runMedTimeCPE.bat" tofile="${dist}/runMedTimeCPE.bat"/>
+        <copy file="runMedTimeCPE.sh" tofile="${dist}/runMedTimeCPE.sh"/>
+        <copy file="runMedTimeCVD.bat" tofile="${dist}/runMedTimeCVD.bat"/>
+        <copy file="runMedTimeCVD.sh" tofile="${dist}/runMedTimeCVD.sh"/>
+        <copy file="LICENSE" tofile="${dist}/LICENSE"/>
+        <copy file="README" tofile="${dist}/README"/>
         <zip basedir="${dist}" destfile="MedTime.zip"/>
         <delete dir="${dist}"/>
     </target>

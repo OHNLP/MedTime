@@ -6,7 +6,7 @@
 
     <groupId>org.ohnlp.medtime</groupId>
     <artifactId>MedTime</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <description>The MedTime Clinical Time Information extraction pipeline</description>
 
     <repositories>
