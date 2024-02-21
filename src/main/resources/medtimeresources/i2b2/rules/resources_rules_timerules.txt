@@ -70,7 +70,7 @@ RULENAME="time_r5b",EXTRACTION="(%reApproximate )?%reTimeHour[\s]*[Pp][\.]?[Mm][
 RULENAME="time_r5c",EXTRACTION="(%reApproximate )?%reTimeHour:%reTimeMinute[\s]*[Aa][\.]?[Mm][\.]?",NORM_VALUE="UNDEF-this-dayT%normDay(group(3)):%normMinute(group(4))",NORM_MOD="%normApprox4Dates(group(2))"
 RULENAME="time_r5d",EXTRACTION="(%reApproximate )?%reTimeHour:%reTimeMinute[\s]*[Pp][\.]?[Mm][\.]?",NORM_VALUE="UNDEF-this-dayT%SUM%(group(3),12):%normMinute(group(4))",NORM_MOD="%normApprox4Dates(group(2))"
 RULENAME="time_r5e",EXTRACTION="(%reApproximate )?%reTimeHour:%reTimeMinute:%reTimeMinute[\s]*[Aa][\.]?[Mm][\.]?",NORM_VALUE="UNDEF-this-dayT%normDay(group(3)):%normMinute(group(4))",NORM_MOD="%normApprox4Dates(group(2))"
-RULENAME="time_r5f",EXTRACTION="(%reApproximate )?%reTimeHour:%reTimeMinute:%reTimeMinute[\s]*[Pp][\.]?[Mm][\.]?",NORM_VALUE="UNDEF-this-dayT%SUM%(group(3)),12):%normMinute(group(4))",NORM_MOD="%normApprox4Dates(group(2))"
+RULENAME="time_r5f",EXTRACTION="(%reApproximate )?%reTimeHour:%reTimeMinute:%reTimeMinute[\s]*[Pp][\.]?[Mm][\.]?",NORM_VALUE="UNDEF-this-dayT%SUM%(group(3),12):%normMinute(group(4))",NORM_MOD="%normApprox4Dates(group(2))"
 
 // time_r7
 RULENAME="time_r7a",EXTRACTION="(%reApproximate )?%reTimeHour",NORM_VALUE="UNDEF-this-dayT%normDay(group(3)):00",NORM_MOD="%normApprox4Dates(group(2))"
